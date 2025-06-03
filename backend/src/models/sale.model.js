@@ -47,7 +47,11 @@ const saleSchema = new mongoose.Schema(
       enum: ['cash', 'credit', 'debit', 'paypal', 'gcash'],
     },
   },
-  { timestamps: true }, // for automatic createdAt and updatedAt fields
+  { timestamps: true }
 );
 
-export default mongoose.model('Sale', saleSchema);
+const Sale = mongoose.model('Sale', saleSchema);
+
+export default Sale;
+
+
