@@ -5,8 +5,8 @@ import express from 'express';
 import cors from 'cors';
 import productRoutes from './src/routes/product.route.js';
 import saleRoutes from './src/routes/sale.route.js';
-import userRoutes from './src/routes/user.route.js';
-import customerRoutes from './src/routes/customer.route.js';
+// import userRoutes from './src/routes/user.route.js';
+// import customerRoutes from './src/routes/customer.route.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './src/docs/swagger.js';
 import session from 'express-session';
@@ -80,7 +80,7 @@ app.get('/', (req, res) => {
 // app.use('/', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/sales', saleRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/customers', customerRoutes);
+// app.use('/api/users', userRoutes);
+// app.use('/api/customers', customerRoutes);
 
 export { app };
