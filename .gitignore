@@ -2,6 +2,7 @@ node_modules/
 .env
 .vscode/
 .DS_Store
+package-lock.json
 
 # Ignore backend dependencies and config files
 /backend/node_modules/
