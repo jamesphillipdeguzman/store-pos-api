@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 // Services (product.service.js)
 // findAllProducts()
@@ -17,12 +17,14 @@ export const getProducts = async (req, res) => {
     // if (!products || products.length === 0) {
     //   return res.status(404).send({ error: 'No products found.' });
     // }
-    return res.status(200).json({ "products": "products placeholder" });
+    return res.status(200).json({ products: 'products placeholder' });
   } catch (error) {
     console.log('Error fetching products:', error);
-    return res.status(500).send({ error: 'An error occurred while fetching products.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while fetching products.' });
   }
-}
+};
 
 export const getProductById = async (req, res) => {
   const { id } = req.params;
@@ -34,12 +36,16 @@ export const getProductById = async (req, res) => {
     // if (!product) {
     //   return res.status(404).send({ error: 'Product not found.' });
     // }
-    return res.status(200).json({ "product": `product with id ${id} placeholder` });
+    return res
+      .status(200)
+      .json({ product: `product with id ${id} placeholder` });
   } catch (error) {
     console.log(`Error fetching product with ID ${id}:`, error);
-    return res.status(500).send({ error: 'An error occurred while fetching the product.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while fetching the product.' });
   }
-}
+};
 
 export const createProduct = async (req, res) => {
   const productData = req.body;
@@ -48,12 +54,14 @@ export const createProduct = async (req, res) => {
     // if (!newProduct) {
     //   return res.status(400).send({ error: 'Failed to create product.' });
     // }
-    return res.status(201).json({ "product": "new product placeholder" });
+    return res.status(201).json({ product: 'new product placeholder' });
   } catch (error) {
     console.log('Error creating product:', error);
-    return res.status(500).send({ error: 'An error occurred while creating the product.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while creating the product.' });
   }
-}
+};
 
 export const updateProductById = async (req, res) => {
   const { id } = req.params;
@@ -66,12 +74,16 @@ export const updateProductById = async (req, res) => {
     // if (!updatedProduct) {
     //   return res.status(404).send({ error: 'Product not found.' });
     // }
-    return res.status(200).json({ "product": `updated product with id ${id} placeholder` });
+    return res
+      .status(200)
+      .json({ product: `updated product with id ${id} placeholder` });
   } catch (error) {
     console.log(`Error updating product with ID ${id}:`, error);
-    return res.status(500).send({ error: 'An error occurred while updating the product.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while updating the product.' });
   }
-}
+};
 
 export const deleteProductById = async (req, res) => {
   const { id } = req.params;
@@ -83,9 +95,13 @@ export const deleteProductById = async (req, res) => {
     // if (!deletedProduct) {
     //   return res.status(404).send({ error: 'Product not found.' });
     // }
-    return res.status(200).json({ "message": `Product with id ${id} deleted successfully.` });
+    return res
+      .status(200)
+      .json({ message: `Product with id ${id} deleted successfully.` });
   } catch (error) {
     console.log(`Error deleting product with ID ${id}:`, error);
-    return res.status(500).send({ error: 'An error occurred while deleting the product.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while deleting the product.' });
   }
-}
+};

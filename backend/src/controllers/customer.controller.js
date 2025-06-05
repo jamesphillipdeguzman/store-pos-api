@@ -11,16 +11,17 @@ import mongoose from 'mongoose';
 
 // deleteCustomerById(id) — Delete customer by ID
 
-
 export const getCustomers = async (req, res) => {
   try {
     // const customers = await findAllCustomers();
-    return res.status(200).json({ "customers": "customers placeholder" });
+    return res.status(200).json({ customers: 'customers placeholder' });
   } catch (error) {
     console.log('Error fetching customers:', error);
-    return res.status(500).send({ error: 'An error occurred while fetching customers.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while fetching customers.' });
   }
-}
+};
 
 export const getCustomerById = async (req, res) => {
   const { id } = req.params;
@@ -32,12 +33,16 @@ export const getCustomerById = async (req, res) => {
     // if (!customer) {
     //   return res.status(404).send({ error: 'Customer not found.' });
     // }
-    return res.status(200).json({ "customer": `customer with id ${id} placeholder` });
+    return res
+      .status(200)
+      .json({ customer: `customer with id ${id} placeholder` });
   } catch (error) {
     console.log(`Error fetching customer with ID ${id}:`, error);
-    return res.status(500).send({ error: 'An error occurred while fetching the customer.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while fetching the customer.' });
   }
-}
+};
 
 export const createCustomer = async (req, res) => {
   const customerData = req.body;
@@ -46,12 +51,14 @@ export const createCustomer = async (req, res) => {
     // if (!newCustomer) {
     //   return res.status(400).send({ error: 'Failed to create customer.' });
     // }
-    return res.status(201).json({ "customer": "new customer placeholder" });
+    return res.status(201).json({ customer: 'new customer placeholder' });
   } catch (error) {
     console.log('Error creating customer:', error);
-    return res.status(500).send({ error: 'An error occurred while creating the customer.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while creating the customer.' });
   }
-}
+};
 
 export const updateCustomerById = async (req, res) => {
   const { id } = req.params;
@@ -64,12 +71,16 @@ export const updateCustomerById = async (req, res) => {
     // if (!updatedCustomer) {
     //   return res.status(404).send({ error: 'Customer not found.' });
     // }
-    return res.status(200).json({ "customer": `updated customer with id ${id} placeholder` });
+    return res
+      .status(200)
+      .json({ customer: `updated customer with id ${id} placeholder` });
   } catch (error) {
     console.log(`Error updating customer with ID ${id}:`, error);
-    return res.status(500).send({ error: 'An error occurred while updating the customer.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while updating the customer.' });
   }
-}
+};
 
 export const deleteCustomerById = async (req, res) => {
   const { id } = req.params;
@@ -84,6 +95,8 @@ export const deleteCustomerById = async (req, res) => {
     return res.status(204).send();
   } catch (error) {
     console.log(`Error deleting customer with ID ${id}:`, error);
-    return res.status(500).send({ error: 'An error occurred while deleting the customer.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while deleting the customer.' });
   }
-}
+};

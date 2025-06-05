@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-
+import mongoose from 'mongoose';
 
 // Services (sale.service.js)
 // findAllSales() — Get all sales
@@ -22,12 +21,14 @@ export const getSales = async (req, res) => {
     // if (!sales || sales.length === 0) {
     //   return res.status(404).send({ error: 'No sales found.' });
     // }
-    return res.status(200).json({ "sales": "sales placeholder" });
+    return res.status(200).json({ sales: 'sales placeholder' });
   } catch (error) {
     console.log('Error fetching sales:', error);
-    return res.status(500).send({ error: 'An error occurred while fetching sales.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while fetching sales.' });
   }
-}
+};
 
 export const getSaleById = async (req, res) => {
   const { id } = req.params;
@@ -39,12 +40,14 @@ export const getSaleById = async (req, res) => {
     // if (!sale) {
     //   return res.status(404).send({ error: 'Sale not found.' });
     // }
-    return res.status(200).json({ "sale": `sale with id ${id} placeholder` });
+    return res.status(200).json({ sale: `sale with id ${id} placeholder` });
   } catch (error) {
     console.log(`Error fetching sale with ID ${id}:`, error);
-    return res.status(500).send({ error: 'An error occurred while fetching the sale.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while fetching the sale.' });
   }
-}
+};
 
 export const getSalesByUserId = async (req, res) => {
   const { userId } = req.params;
@@ -56,12 +59,16 @@ export const getSalesByUserId = async (req, res) => {
     // if (!sales || sales.length === 0) {
     //   return res.status(404).send({ error: 'No sales found for this user.' });
     // }
-    return res.status(200).json({ "sales": `sales for user with id ${userId} placeholder` });
+    return res
+      .status(200)
+      .json({ sales: `sales for user with id ${userId} placeholder` });
   } catch (error) {
     console.log(`Error fetching sales for user with ID ${userId}:`, error);
-    return res.status(500).send({ error: 'An error occurred while fetching the sales.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while fetching the sales.' });
   }
-}
+};
 
 export const getSalesByCustomerId = async (req, res) => {
   const { customerId } = req.params;
@@ -73,12 +80,19 @@ export const getSalesByCustomerId = async (req, res) => {
     // if (!sales || sales.length === 0) {
     //   return res.status(404).send({ error: 'No sales found for this customer.' });
     // }
-    return res.status(200).json({ "sales": `sales for customer with id ${customerId} placeholder` });
+    return res
+      .status(200)
+      .json({ sales: `sales for customer with id ${customerId} placeholder` });
   } catch (error) {
-    console.log(`Error fetching sales for customer with ID ${customerId}:`, error);
-    return res.status(500).send({ error: 'An error occurred while fetching the sales.' });
+    console.log(
+      `Error fetching sales for customer with ID ${customerId}:`,
+      error,
+    );
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while fetching the sales.' });
   }
-}
+};
 
 export const createSale = async (req, res) => {
   const saleData = req.body;
@@ -87,12 +101,14 @@ export const createSale = async (req, res) => {
     // if (!newSale) {
     //   return res.status(400).send({ error: 'Failed to create sale.' });
     // }
-    return res.status(201).json({ "sale": "new sale placeholder" });
+    return res.status(201).json({ sale: 'new sale placeholder' });
   } catch (error) {
     console.log('Error creating sale:', error);
-    return res.status(500).send({ error: 'An error occurred while creating the sale.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while creating the sale.' });
   }
-}
+};
 
 export const updateSaleById = async (req, res) => {
   const { id } = req.params;
@@ -105,12 +121,16 @@ export const updateSaleById = async (req, res) => {
     // if (!updatedSale) {
     //   return res.status(404).send({ error: 'Sale not found.' });
     // }
-    return res.status(200).json({ "sale": `updated sale with id ${id} placeholder` });
+    return res
+      .status(200)
+      .json({ sale: `updated sale with id ${id} placeholder` });
   } catch (error) {
     console.log(`Error updating sale with ID ${id}:`, error);
-    return res.status(500).send({ error: 'An error occurred while updating the sale.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while updating the sale.' });
   }
-}
+};
 
 export const deleteSaleById = async (req, res) => {
   const { id } = req.params;
@@ -122,9 +142,13 @@ export const deleteSaleById = async (req, res) => {
     // if (!deletedSale) {
     //   return res.status(404).send({ error: 'Sale not found.' });
     // }
-    return res.status(200).json({ "message": `sale with id ${id} deleted successfully` });
+    return res
+      .status(200)
+      .json({ message: `sale with id ${id} deleted successfully` });
   } catch (error) {
     console.log(`Error deleting sale with ID ${id}:`, error);
-    return res.status(500).send({ error: 'An error occurred while deleting the sale.' });
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while deleting the sale.' });
   }
-}
+};
