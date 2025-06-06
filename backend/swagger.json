@@ -10,7 +10,7 @@
       "url": "https://store-pos-api.onrender.com/"
     },
     {
-      "url": "http:127.0.0.1/3001"
+      "url": "http://127.0.0.1:3001"
     }
   ],
   "tags": [
@@ -189,16 +189,129 @@
           }
         }
       }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
     }
   },
   "paths": {
+    "/auth/google": {
+      "get": {
+        "summary": "Redirect user to Google OAuth for login",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "302": {
+            "description": "Initiate Google OAuth login via browser"
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "summary": "Google OAuth callback url for login",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "200": {
+            "description": "OAuth login success, JWT returned to client via postMessage",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<script>window.opener.postMessage({ token: 'JWT_TOKEN' })</script>"
+                }
+              }
+            }
+          },
+          "302": {
+            "description": "Redirect if login fails"
+          }
+        }
+      }
+    },
+    "/auth/status": {
+      "get": {
+        "summary": "Check the current authentication status",
+        "description": "Returns whether the user is currently authenticated and includes user profile if logged in",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns auth status and user data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "authenticated": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "displayName": {
+                          "type": "string",
+                          "example": "James Phillip De Guzman"
+                        },
+                        "emails": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "string",
+                                "example": "jamesphillipdeguzman@gmail.com"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "summary": "Logs out the current user and redirects to home",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirects to homepage after logout"
+          }
+        }
+      }
+    },
+    "/set-cookie": {
+      "get": {
+        "summary": "Set a secure, test cookie",
+        "description": "Useful for debugging cookie behavior",
+        "tags": [
+          "Development"
+        ],
+        "responses": {
+          "200": {
+            "description": "Cookie set successfully",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Cookie set"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/products": {
       "get": {
         "summary": "Get all products",

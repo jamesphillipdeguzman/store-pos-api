@@ -6,6 +6,15 @@ import {
   updateProduct,
   deleteProduct,
 } from '../controllers/product.controller.js';
+
+import {
+  validateProduct,
+  validateProductUpdate,
+} from '../middlewares/product.validation.middleware.js';
+import { validate } from '../middlewares/validate.middleware.js';
+import { ensureAuth } from '../middlewares/auth.middleware.js';
+import { validateMongoIdParam } from '../middlewares/common.middleware.js';
+
 const router = express.Router();
 
 // Get all products
@@ -23,7 +32,7 @@ const router = express.Router();
  *        description: An error occurred while fetching products
  *
  */
-router.get('/', getProducts);
+router.get('/', ensureAuth, getProducts);
 
 // Get a product by Id
 /**
@@ -51,7 +60,7 @@ router.get('/', getProducts);
  *        description: An error occurred while fetching the product
  *
  */
-router.get('/:id', getProduct);
+router.get('/:id', ensureAuth, validateMongoIdParam, validate, getProduct);
 
 // Create a new product
 /**
@@ -76,7 +85,7 @@ router.get('/:id', getProduct);
  *        description: An error occurred while creating the product
  *
  */
-router.post('/', postProduct);
+router.post('/', ensureAuth, validateProduct, validate, postProduct);
 
 // Update a product by Id
 /**
@@ -108,7 +117,14 @@ router.post('/', postProduct);
  *        description: An error occurred while updating the product
  *
  */
-router.put('/:id', updateProduct);
+router.put(
+  '/:id',
+  ensureAuth,
+  validateMongoIdParam,
+  validateProductUpdate,
+  validate,
+  updateProduct,
+);
 
 // Delete a product by Id
 /**
@@ -133,6 +149,6 @@ router.put('/:id', updateProduct);
  *      500:
  *        description: An error occurred while deleting the product
  */
-router.delete('/:id', deleteProduct);
+router.delete('/:id', ensureAuth, validateMongoIdParam, deleteProduct);
 
 export default router;

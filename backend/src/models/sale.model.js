@@ -47,11 +47,9 @@ const saleSchema = new mongoose.Schema(
       enum: ['cash', 'credit', 'debit', 'paypal', 'gcash'],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Sale = mongoose.model('Sale', saleSchema);
 
 export default Sale;
-
-
