@@ -79,7 +79,7 @@ router.get(
                         if(window.opener) {
                             window.opener.postMessage({
                                 type: 'GOOGLE_AUTH_SUCCESS',
-                                user: ${JSON.stringify(req.user)}
+                                token: '${token}',
                             }, '${process.env.CLIENT_ORIGIN}');
                             window.close();
                         } else {

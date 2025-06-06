@@ -12,7 +12,7 @@ import {
   validateProductUpdate,
 } from '../middlewares/product.validation.middleware.js';
 import { validate } from '../middlewares/validate.middleware.js';
-import { ensureAuth } from '../middlewares/auth.middleware.js';
+import { hybridAuth } from '../middlewares/auth.middleware.js';
 import { validateMongoIdParam } from '../middlewares/common.middleware.js';
 
 const router = express.Router();
@@ -32,7 +32,7 @@ const router = express.Router();
  *        description: An error occurred while fetching products
  *
  */
-router.get('/', ensureAuth, getProducts);
+router.get('/', hybridAuth, getProducts);
 
 // Get a product by Id
 /**
@@ -60,7 +60,7 @@ router.get('/', ensureAuth, getProducts);
  *        description: An error occurred while fetching the product
  *
  */
-router.get('/:id', ensureAuth, validateMongoIdParam, validate, getProduct);
+router.get('/:id', hybridAuth, validateMongoIdParam, validate, getProduct);
 
 // Create a new product
 /**
@@ -85,7 +85,7 @@ router.get('/:id', ensureAuth, validateMongoIdParam, validate, getProduct);
  *        description: An error occurred while creating the product
  *
  */
-router.post('/', ensureAuth, validateProduct, validate, postProduct);
+router.post('/', hybridAuth, validateProduct, validate, postProduct);
 
 // Update a product by Id
 /**
@@ -119,7 +119,7 @@ router.post('/', ensureAuth, validateProduct, validate, postProduct);
  */
 router.put(
   '/:id',
-  ensureAuth,
+  hybridAuth,
   validateMongoIdParam,
   validateProductUpdate,
   validate,
@@ -149,6 +149,6 @@ router.put(
  *      500:
  *        description: An error occurred while deleting the product
  */
-router.delete('/:id', ensureAuth, validateMongoIdParam, deleteProduct);
+router.delete('/:id', hybridAuth, validateMongoIdParam, deleteProduct);
 
 export default router;
