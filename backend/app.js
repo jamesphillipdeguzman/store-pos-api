@@ -10,8 +10,8 @@ import saleRoutes from './src/routes/sale.route.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './src/docs/swagger.js';
 import session from 'express-session';
-// import passport from './src/config/passport.config.js';
-// import authRoutes from './src/routes/auth.route.js';
+import passport from './src/config/passport.config.js';
+import authRoutes from './src/routes/auth.route.js';
 
 console.log('ENV:', {
   CLIENT_ORIGIN: process.env.CLIENT_ORIGIN,
@@ -48,7 +48,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // Required for HTTPS. Evaluates to true for production
-      sameSite: 'none', // Required for cross-origin
+      sameSite: 'lax', // Required for cross-origin
       maxAge: 1000 * 60 * 60, // 1 hour
     },
     proxy: true, // Required for secure cookies behind a proxy
@@ -65,8 +65,8 @@ app.use((req, res, next) => {
 });
 
 // Initialize Passport
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Server Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -77,7 +77,7 @@ app.get('/', (req, res) => {
 });
 
 // Mount routes at /auth, /api/products, and /api/sales
-// app.use('/', authRoutes);
+app.use('/', authRoutes);
 
 app.use('/api/products', productRoutes);
 app.use('/api/sales', saleRoutes);

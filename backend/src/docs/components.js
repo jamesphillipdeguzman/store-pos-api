@@ -131,11 +131,11 @@ export const components = {
       },
     },
   },
-  securitySchemes: {
-    bearerAuth: {
-      type: 'http',
-      scheme: 'bearer',
-      bearerFormat: 'JWT',
-    },
-  },
+  // securitySchemes: {
+  //   bearerAuth: {
+  //     type: 'http',
+  //     scheme: 'bearer',
+  //     bearerFormat: 'JWT',
+  //   },
+  // },
 };

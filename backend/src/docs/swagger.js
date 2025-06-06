@@ -16,7 +16,7 @@ const options = {
         url: 'https://store-pos-api.onrender.com/',
       },
       {
-        url: 'http:127.0.0.1/3001',
+        url: 'http://127.0.0.1:3001',
       },
     ],
     tags: [

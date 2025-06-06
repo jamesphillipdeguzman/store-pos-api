@@ -5,7 +5,10 @@ import Sale from '../models/sale.model.js';
  * @returns {Promise<Array>} Array of all sales
  */
 export const findAllSales = async () => {
-  return Sale.find().populate('productId').populate('customerId').populate('userId');
+  return Sale.find()
+    .populate('productId')
+    .populate('customerId')
+    .populate('userId');
 };
 
 /**
