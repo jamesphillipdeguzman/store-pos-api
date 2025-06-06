@@ -5,8 +5,8 @@ let authState = {
   user: null,
 };
 
-export const BACKEND_ORIGIN = "https://simple-pos-api.onrender.com";
-// FRONTEND_ORIGIN = "https://simple-pos-api.netlify.app";
+export const BACKEND_ORIGIN = "https://store-pos-api.onrender.com";
+// FRONTEND_ORIGIN = "https://store-pos-api.netlify.app";
 
 function openGoogleAuthPopup() {
   const width = 500;
