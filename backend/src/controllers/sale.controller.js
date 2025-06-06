@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import Sale from '../models/sale.model.js';
 
 // Get all sales
-export const getAllSales = async (req, res) => {
+export const getSales = async (req, res) => {
   try {
     const sales = await Sale.find()
       .populate('productId')
@@ -35,6 +35,51 @@ export const getSaleById = async (req, res) => {
     res
       .status(500)
       .json({ message: 'Failed to fetch sale', error: error.message });
+  }
+};
+
+export const getSalesByUserId = async (req, res) => {
+  const { userId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).send({ error: 'Invalid user ID format.' });
+  }
+  try {
+    // const sales = await findSalesByUserId(userId);
+    // if (!sales || sales.length === 0) {
+    //   return res.status(404).send({ error: 'No sales found for this user.' });
+    // }
+    return res
+      .status(200)
+      .json({ sales: `sales for user with id ${userId} placeholder` });
+  } catch (error) {
+    console.log(`Error fetching sales for user with ID ${userId}:`, error);
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while fetching the sales.' });
+  }
+};
+
+export const getSalesByCustomerId = async (req, res) => {
+  const { customerId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(customerId)) {
+    return res.status(400).send({ error: 'Invalid customer ID format.' });
+  }
+  try {
+    // const sales = await findSalesByCustomerId(customerId);
+    // if (!sales || sales.length === 0) {
+    //   return res.status(404).send({ error: 'No sales found for this customer.' });
+    // }
+    return res
+      .status(200)
+      .json({ sales: `sales for customer with id ${customerId} placeholder` });
+  } catch (error) {
+    console.log(
+      `Error fetching sales for customer with ID ${customerId}:`,
+      error,
+    );
+    return res
+      .status(500)
+      .send({ error: 'An error occurred while fetching the sales.' });
   }
 };
 
@@ -92,7 +137,7 @@ export const createSale = async (req, res) => {
 };
 
 // Update sale
-export const updateSale = async (req, res) => {
+export const updateSaleById = async (req, res) => {
   try {
     const {
       productId,
@@ -149,53 +194,8 @@ export const updateSale = async (req, res) => {
   }
 };
 
-export const getSalesByUserId = async (req, res) => {
-  const { userId } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
-    return res.status(400).send({ error: 'Invalid user ID format.' });
-  }
-  try {
-    // const sales = await findSalesByUserId(userId);
-    // if (!sales || sales.length === 0) {
-    //   return res.status(404).send({ error: 'No sales found for this user.' });
-    // }
-    return res
-      .status(200)
-      .json({ sales: `sales for user with id ${userId} placeholder` });
-  } catch (error) {
-    console.log(`Error fetching sales for user with ID ${userId}:`, error);
-    return res
-      .status(500)
-      .send({ error: 'An error occurred while fetching the sales.' });
-  }
-};
-
-export const getSalesByCustomerId = async (req, res) => {
-  const { customerId } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(customerId)) {
-    return res.status(400).send({ error: 'Invalid customer ID format.' });
-  }
-  try {
-    // const sales = await findSalesByCustomerId(customerId);
-    // if (!sales || sales.length === 0) {
-    //   return res.status(404).send({ error: 'No sales found for this customer.' });
-    // }
-    return res
-      .status(200)
-      .json({ sales: `sales for customer with id ${customerId} placeholder` });
-  } catch (error) {
-    console.log(
-      `Error fetching sales for customer with ID ${customerId}:`,
-      error,
-    );
-    return res
-      .status(500)
-      .send({ error: 'An error occurred while fetching the sales.' });
-  }
-};
-
 // Delete sale
-export const deleteSale = async (req, res) => {
+export const deleteSaleById = async (req, res) => {
   try {
     const sale = await Sale.findByIdAndDelete(req.params.id);
 

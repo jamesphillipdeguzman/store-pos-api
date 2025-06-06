@@ -47,10 +47,10 @@ export const getCustomerById = async (req, res) => {
 export const createCustomer = async (req, res) => {
   const customerData = req.body;
   try {
-    // const newCustomer = await createCustomer(customerData);
-    // if (!newCustomer) {
-    //   return res.status(400).send({ error: 'Failed to create customer.' });
-    // }
+    const newCustomer = await createCustomer(customerData);
+    if (!newCustomer) {
+      return res.status(400).send({ error: 'Failed to create customer.' });
+    }
     return res.status(201).json({ customer: 'new customer placeholder' });
   } catch (error) {
     console.log('Error creating customer:', error);
@@ -67,10 +67,10 @@ export const updateCustomerById = async (req, res) => {
     return res.status(400).send({ error: 'Invalid customer ID format.' });
   }
   try {
-    // const updatedCustomer = await updateCustomerById(id, updates);
-    // if (!updatedCustomer) {
-    //   return res.status(404).send({ error: 'Customer not found.' });
-    // }
+    const updatedCustomer = await updateCustomerById(id, updates);
+    if (!updatedCustomer) {
+      return res.status(404).send({ error: 'Customer not found.' });
+    }
     return res
       .status(200)
       .json({ customer: `updated customer with id ${id} placeholder` });

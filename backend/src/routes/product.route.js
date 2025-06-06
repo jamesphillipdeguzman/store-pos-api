@@ -1,10 +1,10 @@
 import express from 'express';
 import {
   getProducts,
-  getProductById,
-  createProduct,
-  updateProductById,
-  deleteProductById,
+  getProduct,
+  postProduct,
+  updateProduct,
+  deleteProduct,
 } from '../controllers/product.controller.js';
 const router = express.Router();
 
@@ -51,7 +51,7 @@ router.get('/', getProducts);
  *        description: An error occurred while fetching the product
  *
  */
-router.get('/:id', getProductById);
+router.get('/:id', getProduct);
 
 // Create a new product
 /**
@@ -76,7 +76,7 @@ router.get('/:id', getProductById);
  *        description: An error occurred while creating the product
  *
  */
-router.post('/', createProduct);
+router.post('/', postProduct);
 
 // Update a product by Id
 /**
@@ -108,7 +108,7 @@ router.post('/', createProduct);
  *        description: An error occurred while updating the product
  *
  */
-router.put('/:id', updateProductById);
+router.put('/:id', updateProduct);
 
 // Delete a product by Id
 /**
@@ -133,6 +133,6 @@ router.put('/:id', updateProductById);
  *      500:
  *        description: An error occurred while deleting the product
  */
-router.delete('/:id', deleteProductById);
+router.delete('/:id', deleteProduct);
 
 export default router;
