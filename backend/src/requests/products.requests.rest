@@ -1,0 +1,70 @@
+### GET all products
+GET http://localhost:3001/api/products
+
+### GET a product by Id
+GET http://localhost:3001/api/products/682c9a8d6fd75cb7c058dbec
+
+### POST a product
+POST http://localhost:3001/api/products
+Content-Type: application/json
+
+{
+  "name": "",
+  "sku": null,
+  "stock": -1,
+  "description": "",
+  "price": -2,
+  "category": "",
+  "supplier": 3
+}
+
+
+# {
+#   "name": "TEST PRODUCT 3",
+#   "sku": 1006,
+#   "stock": 2,
+#   "description": "TEST DESC 3",
+#   "price": 5.99,
+#   "category": "TEST CATEGORY 3",
+#   "supplier": "TEST SUPPLIER 3"
+# }
+
+# {
+#   "name": "PC Monitor",
+#   "sku": 100200,
+#   "stock": 20,
+#   "description": "24-inch monitor with HDMI support",
+#   "price": 149.99,
+#   "category": "Monitors",
+#   "supplier": "TechSupply Co."  
+# }
+
+
+
+### PUT or UPDATE a product
+PUT http://localhost:3001/api/products/682ea9733aa4c670f11af98d
+Content-Type: application/json
+
+{
+  "name": "",
+  "sku": "",
+  "stock": "",
+  "description": "",
+  "price": "",
+  "category": "",
+  "supplier": ""
+}
+
+
+# {
+#   "name": "TEST PRODUCT 2",
+#   "sku": 1005,
+#   "stock": 5,
+#   "description": "TEST DESC",
+#   "price": 5.99,
+#   "category": "TEST CATEGORY",
+#   "supplier": "TEST SUPPLIER"
+# }
+
+### DELETE a product
+DELETE http://localhost:3001/api/products/68369152b24aef4159437ccc
