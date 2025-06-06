@@ -24,6 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     if (!isNaN(quantity) && !isNaN(price)) {
       totalAmountInput.value = (quantity * price).toFixed(2);
+      alert("Please make sure all fields are field correctly.");
     } else {
       totalAmountInput.value = "";
     }
@@ -93,6 +94,8 @@ window.addEventListener("DOMContentLoaded", () => {
     // Second, create the sale
     const sale = {
       productId: document.getElementById("productId").value,
+      customerId: document.getElementById("customerId").value,
+      userId: document.getElementById("userId").value,
       priceAtSale: parseFloat(document.getElementById("priceAtSale").value),
       quantity: parseInt(document.getElementById("quantity").value),
       totalAmount: parseFloat(document.getElementById("totalAmount").value),

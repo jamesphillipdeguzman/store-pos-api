@@ -13,6 +13,13 @@ export const validateSale = [
   body('totalAmount')
     .isFloat({ gt: 0 })
     .withMessage('Total amount must be greater than 0'),
+  body('cashierName')
+    .optional()
+    .isString()
+    .trim()
+    .notEmpty()
+    .default('unknown')
+    .withMessage('Cashier name cannot be empty if provided'),
   body('paymentMethod').notEmpty().withMessage('Payment method is required'),
 ];
 
@@ -35,6 +42,13 @@ export const validateSaleUpdate = [
     .optional()
     .isFloat({ gt: 0 })
     .withMessage('Total amount must be greater than 0'),
+  body('cashierName')
+    .optional()
+    .isString()
+    .trim()
+    .notEmpty()
+    .default('unknown')
+    .withMessage('Cashier name cannot be empty if provided'),
   body('paymentMethod')
     .optional()
     .notEmpty()

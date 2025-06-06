@@ -36,7 +36,7 @@ export const getSaleById = async (req, res) => {
       return res.status(404).send({ error: 'Sale not found.' });
     }
     console.log(`GET /api/sales/${id} was called.`);
-    return res.status(200).json({ sale });
+    return res.status(200).json(sale);
   } catch (error) {
     console.error(`Error fetching sale with ID ${id}:`, error);
     return res
@@ -55,8 +55,8 @@ export const getSalesByUserId = async (req, res) => {
     if (!sales || sales.length === 0) {
       return res.status(404).send({ error: 'No sales found.' });
     }
-    console.log(`GET /api/sales/user/${userId} was called.`);
-    return res.status(200).json({ sales });
+    console.log(`[SALE] GET /api/sales/user/${userId} was called.`);
+    return res.status(200).json(sales);
   } catch (error) {
     console.error(`Error fetching sales for user ID ${userId}:`, error);
     return res
@@ -75,8 +75,8 @@ export const getSalesByCustomerId = async (req, res) => {
     if (!sales || sales.length === 0) {
       return res.status(404).send({ error: 'No sales found.' });
     }
-    console.log(`GET /api/sales/customer/${customerId} was called.`);
-    return res.status(200).json({ sales });
+    console.log(`[SALE] GET /api/sales/customer/${customerId} was called.`);
+    return res.status(200).json(sales);
   } catch (error) {
     console.error(`Error fetching sales for customer ID ${customerId}:`, error);
     return res
@@ -93,8 +93,8 @@ export const postSale = async (req, res) => {
     if (!newSale) {
       return res.status(400).send({ error: 'Failed to create sale.' });
     }
-    console.log('POST /api/sales was called.');
-    return res.status(201).json({ sale: newSale });
+    console.log('[SALE] POST /api/sales was called.');
+    return res.status(201).json(newSale);
   } catch (error) {
     console.error('Error creating sale:', error);
     return res
@@ -113,8 +113,8 @@ export const updateSale = async (req, res) => {
     if (!updatedSale) {
       return res.status(404).send({ error: 'Sale not found.' });
     }
-    console.log(`PUT /api/sales/${id} was called.`);
-    return res.status(200).json({ sale: updatedSale });
+    console.log(`[SALE] PUT /api/sales/${id} was called.`);
+    return res.status(200).json(updatedSale);
   } catch (error) {
     console.error(`Error updating sale with ID ${id}:`, error);
     return res
@@ -133,7 +133,7 @@ export const deleteSale = async (req, res) => {
     if (!deletedSale) {
       return res.status(404).send({ error: 'Sale not found.' });
     }
-    console.log(`DELETE /api/sales/${id} was called.`);
+    console.log(`[SALE] DELETE /api/sales/${id} was called.`);
     return res
       .status(200)
       .json({ message: `Sale with id ${id} deleted successfully.` });

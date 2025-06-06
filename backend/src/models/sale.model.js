@@ -10,12 +10,12 @@ const saleSchema = new mongoose.Schema(
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Customer',
-      required: true,
+      required: false, // TODO: Change to true once Customer model is working
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: false, // TODO: Change to true once User model is working
     },
     priceAtSale: {
       type: Number,
@@ -39,6 +39,11 @@ const saleSchema = new mongoose.Schema(
       type: Date,
       required: true,
       default: Date.now,
+    },
+    cashierName: {
+      type: String,
+      required: true,
+      default: 'unknown',
     },
     paymentMethod: {
       type: String,

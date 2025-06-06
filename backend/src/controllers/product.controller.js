@@ -13,8 +13,8 @@ export const getProducts = async (req, res) => {
     if (!products || products.length === 0) {
       return res.status(404).send({ error: 'No products found.' });
     }
-    console.log('GET /api/products was called.');
-    return res.status(200).json({ products });
+    console.log('[PRODUCT] GET /api/products was called.');
+    return res.status(200).json(products);
   } catch (error) {
     console.log('Error fetching products:', error);
     return res
@@ -33,10 +33,8 @@ export const getProduct = async (req, res) => {
     if (!product) {
       return res.status(404).send({ error: 'Product not found.' });
     }
-    console.log(`GET /api/products/${id} was called.`);
-    return res
-      .status(200)
-      .json({ product: `product with id ${id} placeholder` });
+    console.log(`[PRODUCT] GET /api/products/${id} was called.`);
+    return res.status(200).json(product);
   } catch (error) {
     console.log(`Error fetching product with ID ${id}:`, error);
     return res
@@ -52,8 +50,8 @@ export const postProduct = async (req, res) => {
     if (!newProduct) {
       return res.status(400).send({ error: 'Failed to create product.' });
     }
-    console.log('POST /api/products was called.');
-    return res.status(201).json({ product: 'new product placeholder' });
+    console.log('[PRODUCT] POST /api/products was called.');
+    return res.status(201).json(newProduct);
   } catch (error) {
     console.log('Error creating product:', error);
     return res
@@ -73,10 +71,8 @@ export const updateProduct = async (req, res) => {
     if (!updatedProduct) {
       return res.status(404).send({ error: 'Product not found.' });
     }
-    console.log(`PUT /api/products/${id} was called.`);
-    return res
-      .status(200)
-      .json({ product: `updated product with id ${id} placeholder` });
+    console.log(`[PRODUCT] PUT /api/products/${id} was called.`);
+    return res.status(200).json(updatedProduct);
   } catch (error) {
     console.log(`Error updating product with ID ${id}:`, error);
     return res
@@ -95,7 +91,7 @@ export const deleteProduct = async (req, res) => {
     if (!deletedProduct) {
       return res.status(404).send({ error: 'Product not found.' });
     }
-    console.log(`DELETE /api/products/${id} was called`);
+    console.log(`[PRODUCT] DELETE /api/products/${id} was called`);
     return res
       .status(200)
       .json({ message: `Product with id ${id} deleted successfully.` });
