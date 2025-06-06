@@ -1,35 +1,55 @@
 export const components = {
   schemas: {
+    Product: {
+      type: 'object',
+      required: ['name', 'sku', 'stock', 'category', 'supplier', 'createdAt'],
+      properties: {
+        name: { type: 'string' },
+        sku: { type: 'string' },
+        stock: { type: 'number' },
+        description: { type: 'string' },
+        price: { type: 'number', minimum: 0 },
+        category: { type: 'string' },
+        supplier: { type: 'string' },
+        createdAt: { type: 'string', format: 'date-time' },
+      },
+    },
     Sale: {
       type: 'object',
+      required: [
+        'productId',
+        'customerId',
+        'userId',
+        'priceAtSale',
+        'quantity',
+        'totalAmount',
+        'saleDate',
+        'paymentMethod',
+      ],
       properties: {
-        _id: {
-          type: 'string',
-          description: 'Auto-generated sale ID',
-        },
         productId: {
           type: 'string',
-          description: 'ID of the product',
+          description: 'MongoDB ObjectId reference to the Product',
         },
         customerId: {
           type: 'string',
-          description: 'ID of the customer',
+          description: 'MongoDB ObjectId reference to the Customer',
         },
         userId: {
           type: 'string',
-          description: 'ID of the user (cashier)',
+          description: 'MongoDB ObjectId reference to the User',
         },
         priceAtSale: {
           type: 'number',
-          description: 'Price of the product at the time of sale',
+          minimum: 0,
         },
         quantity: {
           type: 'number',
-          description: 'Quantity of products sold',
+          minimum: 0,
         },
         totalAmount: {
           type: 'number',
-          description: 'Total amount of the sale',
+          minimum: 0,
         },
         saleDate: {
           type: 'string',
