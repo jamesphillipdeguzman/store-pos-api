@@ -7,11 +7,16 @@ import productRoutes from './src/routes/product.route.js';
 import saleRoutes from './src/routes/sale.route.js';
 // import userRoutes from './src/routes/user.route.js';
 // import customerRoutes from './src/routes/customer.route.js';
+<<<<<<< HEAD
+import { setupSwagger } from './src/docs/swagger.js';
+=======
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './src/docs/swagger.js';
+>>>>>>> main
 import session from 'express-session';
 // import passport from './src/config/passport.config.js';
 // import authRoutes from './src/routes/auth.route.js';
+
 
 console.log('ENV:', {
   CLIENT_ORIGIN: process.env.CLIENT_ORIGIN,
@@ -68,8 +73,13 @@ app.use((req, res, next) => {
 // app.use(passport.initialize());
 // app.use(passport.session());
 
+<<<<<<< HEAD
+// Setup Swagger
+setupSwagger(app);
+=======
 // Server Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+>>>>>>> main
 
 // Greet the user
 app.get('/', (req, res) => {
@@ -78,6 +88,7 @@ app.get('/', (req, res) => {
 
 // Mount routes at /auth, /api/products, and /api/sales
 // app.use('/', authRoutes);
+
 app.use('/api/products', productRoutes);
 app.use('/api/sales', saleRoutes);
 // app.use('/api/users', userRoutes);

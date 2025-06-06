@@ -1,51 +1,151 @@
 import mongoose from 'mongoose';
+import Sale from '../models/sale.model.js';
 
-// Services (sale.service.js)
-// findAllSales() — Get all sales
-
-// findSaleById(id) — Get sale by ID
-
-// findSalesByUserId(userId) — Get all sales by a user (cashier/admin)
-
-// findSalesByCustomerId(customerId) — Get all sales by a customer
-
-// createSale(data) — Create a new sale record
-
-// updateSaleById(id, updates) — Update sale by ID
-
-// deleteSaleById(id) — Delete sale by ID
-
-export const getSales = async (req, res) => {
+// Get all sales
+export const getAllSales = async (req, res) => {
   try {
-    // const sales = await findAllSales();
-    // if (!sales || sales.length === 0) {
-    //   return res.status(404).send({ error: 'No sales found.' });
-    // }
-    return res.status(200).json({ sales: 'sales placeholder' });
+    const sales = await Sale.find()
+      .populate('productId')
+      .populate('customerId')
+      .populate('userId');
+    res.status(200).json(sales);
   } catch (error) {
-    console.log('Error fetching sales:', error);
-    return res
+    res
       .status(500)
-      .send({ error: 'An error occurred while fetching sales.' });
+      .json({ message: 'Failed to fetch sales', error: error.message });
   }
 };
 
+// Get sale by ID
 export const getSaleById = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({ error: 'Invalid sale ID format.' });
-  }
   try {
-    // const sale = await findSaleById(id);
-    // if (!sale) {
-    //   return res.status(404).send({ error: 'Sale not found.' });
-    // }
-    return res.status(200).json({ sale: `sale with id ${id} placeholder` });
+    const sale = await Sale.findById(req.params.id)
+      .populate('productId')
+      .populate('customerId')
+      .populate('userId');
+
+    if (!sale) {
+      return res.status(404).json({ message: 'Sale not found' });
+    }
+    res.status(200).json(sale);
   } catch (error) {
-    console.log(`Error fetching sale with ID ${id}:`, error);
-    return res
+    if (error.message === 'Invalid sale ID' || error.name === 'CastError') {
+      return res.status(400).json({ message: 'Invalid sale ID format' });
+    }
+    res
       .status(500)
-      .send({ error: 'An error occurred while fetching the sale.' });
+      .json({ message: 'Failed to fetch sale', error: error.message });
+  }
+};
+
+// Create new sale
+export const createSale = async (req, res) => {
+  try {
+    const {
+      productId,
+      customerId,
+      userId,
+      quantity,
+      totalAmount,
+      paymentMethod,
+    } = req.body;
+
+    // Validation
+    if (!productId || !quantity || !totalAmount) {
+      return res
+        .status(400)
+        .json({ message: 'ProductId, quantity, and totalAmount are required' });
+    }
+
+    if (typeof quantity !== 'number' || quantity <= 0) {
+      return res
+        .status(400)
+        .json({ message: 'Quantity must be a positive number' });
+    }
+
+    if (typeof totalAmount !== 'number' || totalAmount <= 0) {
+      return res
+        .status(400)
+        .json({ message: 'Total amount must be a positive number' });
+    }
+
+    const sale = new Sale({
+      productId,
+      customerId,
+      userId,
+      quantity,
+      totalAmount,
+      paymentMethod: paymentMethod || 'cash',
+    });
+
+    const savedSale = await sale.save();
+
+    res.status(201).json({
+      message: 'Sale created successfully',
+      saleId: savedSale._id,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Failed to create sale', error: error.message });
+  }
+};
+
+// Update sale
+export const updateSale = async (req, res) => {
+  try {
+    const {
+      productId,
+      customerId,
+      userId,
+      quantity,
+      totalAmount,
+      paymentMethod,
+    } = req.body;
+
+    // Validation
+    if (
+      quantity !== undefined &&
+      (typeof quantity !== 'number' || quantity <= 0)
+    ) {
+      return res
+        .status(400)
+        .json({ message: 'Quantity must be a positive number' });
+    }
+
+    if (
+      totalAmount !== undefined &&
+      (typeof totalAmount !== 'number' || totalAmount <= 0)
+    ) {
+      return res
+        .status(400)
+        .json({ message: 'Total amount must be a positive number' });
+    }
+
+    const updateData = {};
+    if (productId) updateData.productId = productId;
+    if (customerId) updateData.customerId = customerId;
+    if (userId) updateData.userId = userId;
+    if (quantity) updateData.quantity = quantity;
+    if (totalAmount) updateData.totalAmount = totalAmount;
+    if (paymentMethod) updateData.paymentMethod = paymentMethod;
+
+    const sale = await Sale.findByIdAndUpdate(req.params.id, updateData, {
+      new: true,
+    });
+
+    if (!sale) {
+      return res.status(404).json({ message: 'Sale not found' });
+    }
+
+    res.status(200).json({ message: 'Sale updated successfully' });
+  } catch (error) {
+    if (error.message === 'Invalid sale ID' || error.name === 'CastError') {
+      return res.status(400).json({ message: 'Invalid sale ID format' });
+    }
+    res
+      .status(500)
+      .json({ message: 'Failed to update sale', error: error.message });
   }
 };
 
@@ -94,61 +194,22 @@ export const getSalesByCustomerId = async (req, res) => {
   }
 };
 
-export const createSale = async (req, res) => {
-  const saleData = req.body;
+// Delete sale
+export const deleteSale = async (req, res) => {
   try {
-    // const newSale = await createSale(saleData);
-    // if (!newSale) {
-    //   return res.status(400).send({ error: 'Failed to create sale.' });
-    // }
-    return res.status(201).json({ sale: 'new sale placeholder' });
-  } catch (error) {
-    console.log('Error creating sale:', error);
-    return res
-      .status(500)
-      .send({ error: 'An error occurred while creating the sale.' });
-  }
-};
+    const sale = await Sale.findByIdAndDelete(req.params.id);
 
-export const updateSaleById = async (req, res) => {
-  const { id } = req.params;
-  const updates = req.body;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({ error: 'Invalid sale ID format.' });
-  }
-  try {
-    // const updatedSale = await updateSaleById(id, updates);
-    // if (!updatedSale) {
-    //   return res.status(404).send({ error: 'Sale not found.' });
-    // }
-    return res
-      .status(200)
-      .json({ sale: `updated sale with id ${id} placeholder` });
-  } catch (error) {
-    console.log(`Error updating sale with ID ${id}:`, error);
-    return res
-      .status(500)
-      .send({ error: 'An error occurred while updating the sale.' });
-  }
-};
+    if (!sale) {
+      return res.status(404).json({ message: 'Sale not found' });
+    }
 
-export const deleteSaleById = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({ error: 'Invalid sale ID format.' });
-  }
-  try {
-    // const deletedSale = await deleteSaleById(id);
-    // if (!deletedSale) {
-    //   return res.status(404).send({ error: 'Sale not found.' });
-    // }
-    return res
-      .status(200)
-      .json({ message: `sale with id ${id} deleted successfully` });
+    res.status(200).json({ message: 'Sale deleted successfully' });
   } catch (error) {
-    console.log(`Error deleting sale with ID ${id}:`, error);
-    return res
+    if (error.message === 'Invalid sale ID' || error.name === 'CastError') {
+      return res.status(400).json({ message: 'Invalid sale ID format' });
+    }
+    res
       .status(500)
-      .send({ error: 'An error occurred while deleting the sale.' });
+      .json({ message: 'Failed to delete sale', error: error.message });
   }
 };
