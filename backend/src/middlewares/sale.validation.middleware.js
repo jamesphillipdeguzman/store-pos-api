@@ -2,8 +2,17 @@ import { body } from 'express-validator';
 
 export const validateSale = [
   body('productId').notEmpty().withMessage('Product ID is required'),
-  body('customerId').notEmpty().withMessage('Customer ID is required'),
-  body('userId').notEmpty().withMessage('User ID is required'),
+  // body('customerId').notEmpty().withMessage('Customer ID is required'),
+  // body('userId').notEmpty().withMessage('User ID is required'),
+  // TODO: Make customerId and userId optional for now:
+  body('customerId')
+    .optional({ nullable: true })
+    .isMongoId()
+    .withMessage('Customer ID must be a valid Mongo ID'),
+  body('userId')
+    .optional({ nullable: true })
+    .isMongoId()
+    .withMessage('User ID must be a valid Mongo ID'),
   body('priceAtSale')
     .isFloat({ gt: 0 })
     .withMessage('Price at sale must be greater than 0'),
