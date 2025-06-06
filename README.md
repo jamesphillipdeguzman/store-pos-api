@@ -62,7 +62,11 @@ npm install
 npm run server
 
 ✅ Live Links
-🔗 Backend: TBA
+## Deployed backend API on Render
 
-🔗 Frontend: TBA
+[🔗 https://store-pos-api.onrender.com/](https://store-pos-api.onrender.com/)
+
+## Deployed frontend html on Netlify
+
+[🔗 https://store-pos-api.netlify.app/](https://store-pos-api.netlify.app/)
 ```
