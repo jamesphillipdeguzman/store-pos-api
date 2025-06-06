@@ -24,7 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     if (!isNaN(quantity) && !isNaN(price)) {
       totalAmountInput.value = (quantity * price).toFixed(2);
-      alert("Please make sure all fields are field correctly.");
+      //   alert("Please make sure all fields are field correctly.");
     } else {
       totalAmountInput.value = "";
     }
