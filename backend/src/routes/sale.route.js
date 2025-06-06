@@ -14,7 +14,7 @@ import {
   validateSaleUpdate,
 } from '../middlewares/sale.validation.middleware.js';
 import { validate } from '../middlewares/validate.middleware.js';
-import { ensureAuth } from '../middlewares/auth.middleware.js';
+import { hybridAuth } from '../middlewares/auth.middleware.js';
 import { validateMongoIdParam } from '../middlewares/common.middleware.js';
 
 const router = express.Router();
@@ -34,7 +34,7 @@ const router = express.Router();
  *        description: An error occurred while fetching sales
  *
  */
-router.get('/', ensureAuth, getSales);
+router.get('/', hybridAuth, getSales);
 
 // Get a sale by Id
 /**
@@ -62,7 +62,7 @@ router.get('/', ensureAuth, getSales);
  *        description: An error occurred while fetching the sale
  *
  */
-router.get('/:id', ensureAuth, validateMongoIdParam, validate, getSaleById);
+router.get('/:id', hybridAuth, validateMongoIdParam, validate, getSaleById);
 
 // Get a sale by User Id
 /**
@@ -90,7 +90,7 @@ router.get('/:id', ensureAuth, validateMongoIdParam, validate, getSaleById);
  *        description: An error occurred while fetching the sale by User ID
  *
  */
-router.get('/user/:userId', ensureAuth, validateMongoIdParam, getSalesByUserId);
+router.get('/user/:userId', hybridAuth, validateMongoIdParam, getSalesByUserId);
 
 // Get a sale by Customer Id
 /**
@@ -120,7 +120,7 @@ router.get('/user/:userId', ensureAuth, validateMongoIdParam, getSalesByUserId);
  */
 router.get(
   '/customer/:customerId',
-  ensureAuth,
+  hybridAuth,
   validateMongoIdParam,
   getSalesByCustomerId,
 );
@@ -148,7 +148,7 @@ router.get(
  *        description: An error occurred while creating the sale
  *
  */
-router.post('/', ensureAuth, validateSale, validate, postSale);
+router.post('/', hybridAuth, validateSale, validate, postSale);
 
 // Update a sale by Id
 /**
@@ -182,7 +182,7 @@ router.post('/', ensureAuth, validateSale, validate, postSale);
  */
 router.put(
   '/:id',
-  ensureAuth,
+  hybridAuth,
   validateMongoIdParam,
   validateSaleUpdate,
   validate,
@@ -212,6 +212,6 @@ router.put(
  *      500:
  *        description: An error occurred while deleting the sale
  */
-router.delete('/:id', ensureAuth, validateMongoIdParam, deleteSale);
+router.delete('/:id', hybridAuth, validateMongoIdParam, deleteSale);
 
 export default router;
