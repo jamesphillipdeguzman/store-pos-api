@@ -73,7 +73,43 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Greet the user
 app.get('/', (req, res) => {
-  res.send('Welcome to Store-POS-API by Team 01!');
+  res.send(`
+    <html>
+      <head>
+        <!-- Load Roboto from Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <style>
+          body {
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            padding: 2rem;
+            color: #333;
+          }
+          h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+          }
+          a {
+            color: #007BFF;
+            text-decoration: none;
+          }
+          a:hover {
+            text-decoration: underline;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Welcome to Store POS API by Team 01!</h1>
+        <p>
+          Please login at 
+          <a href="https://store-pos-api.netlify.app/" target="_blank">
+            https://store-pos-api.netlify.app
+          </a>
+        </p>
+      </body>
+    </html>
+  `);
 });
 
 // Mount routes at /auth, /api/products, and /api/sales
