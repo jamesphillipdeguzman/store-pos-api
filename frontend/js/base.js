@@ -94,8 +94,8 @@ window.addEventListener("DOMContentLoaded", () => {
     // Second, create the sale
     const sale = {
       productId: document.getElementById("productId").value,
-      customerId: document.getElementById("customerId").value,
-      userId: document.getElementById("userId").value,
+      //   customerId: document.getElementById("customerId").value, TODO: Uncomment when Customer is ready
+      //   userId: document.getElementById("userId").value, TODO: Uncomment when User is ready
       priceAtSale: parseFloat(document.getElementById("priceAtSale").value),
       quantity: parseInt(document.getElementById("quantity").value),
       totalAmount: parseFloat(document.getElementById("totalAmount").value),
