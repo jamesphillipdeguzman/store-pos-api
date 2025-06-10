@@ -1,0 +1,54 @@
+### GET all sales
+GET http://localhost:3001/api/sales
+
+
+### GET a sale by Id
+GET http://localhost:3001/api/sales/682ea8a33aa4c670f11af984
+
+### POST a sale
+POST http://localhost:3001/api/sales
+Content-Type: application/json
+
+{
+    "productId": "682f5861b1167099bb0a8169",
+    "priceAtSale": "149.99",
+    "quantity": -1,
+    "totalAmount": 149.99,
+    "cashierName": "Valerie",
+    "paymentMethod": "cash"
+}
+
+
+# {
+#     "productId": "682d669c905734f88f56275e",
+#     "priceAtSale": 0,
+#     "quantity": 0,
+#     "totalAmount": 0,
+#     "cashierName": "Angel",
+#     "paymentMethod": "paypal"
+# }
+
+### PUT or UPDATE a sale
+PUT http://localhost:3001/api/sales/682ea8a33aa4c670f11af984
+Content-Type: application/json
+
+{   
+    "productId": "1234",
+    "priceAtSale": null,
+    "quantity": null,
+    "totalAmount": null,
+    "cashierName": "",
+    "paymentMethod": "paymaya"
+}
+
+# {   
+#     "productId": "682d669c905734f88f56275e",
+#     "priceAtSale": 12.99,
+#     "quantity": 5,
+#     "totalAmount": 64.95,
+#     "cashierName": "Bernice S. Sawal",
+#     "paymentMethod": "credit"
+# }
+
+### DELETE a sale
+DELETE http://localhost:3001/api/sales/682eb06e30f847ef9d771819

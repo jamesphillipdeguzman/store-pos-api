@@ -1,0 +1,666 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "store-pos-api",
+    "version": "1.0.0",
+    "description": "A simple Point-of-Sale (POS) system for small stores, ready for frontend consumption"
+  },
+  "servers": [
+    {
+      "url": "https://store-pos-api.onrender.com/"
+    },
+    {
+      "url": "http://127.0.0.1:3001"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Google OAuth login/logout routes are not for testing, but for documentation only"
+    },
+    {
+      "name": "Products",
+      "description": "Product management routes for testing"
+    },
+    {
+      "name": "Sales",
+      "description": "Sale management routes for testing"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "required": [
+          "name",
+          "sku",
+          "stock",
+          "category",
+          "supplier",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "stock": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0
+          },
+          "category": {
+            "type": "string"
+          },
+          "supplier": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Sale": {
+        "type": "object",
+        "required": [
+          "productId",
+          "customerId",
+          "userId",
+          "priceAtSale",
+          "quantity",
+          "totalAmount",
+          "saleDate",
+          "paymentMethod"
+        ],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "MongoDB ObjectId reference to the Product"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "MongoDB ObjectId reference to the Customer"
+          },
+          "userId": {
+            "type": "string",
+            "description": "MongoDB ObjectId reference to the User"
+          },
+          "priceAtSale": {
+            "type": "number",
+            "minimum": 0
+          },
+          "quantity": {
+            "type": "number",
+            "minimum": 0
+          },
+          "totalAmount": {
+            "type": "number",
+            "minimum": 0
+          },
+          "saleDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time of the sale"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": [
+              "cash",
+              "credit",
+              "debit",
+              "paypal",
+              "gcash"
+            ],
+            "description": "Method of payment"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "responses": {
+      "NotFound": {
+        "description": "The specified resource was not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Resource not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Invalid input data"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Validation error details"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Error details"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/auth/google": {
+      "get": {
+        "summary": "Redirect user to Google OAuth for login",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "302": {
+            "description": "Initiate Google OAuth login via browser"
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "summary": "Google OAuth callback url for login",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "200": {
+            "description": "OAuth login success, JWT returned to client via postMessage",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<script>window.opener.postMessage({ token: 'JWT_TOKEN' })</script>"
+                }
+              }
+            }
+          },
+          "302": {
+            "description": "Redirect if login fails"
+          }
+        }
+      }
+    },
+    "/auth/status": {
+      "get": {
+        "summary": "Check the current authentication status",
+        "description": "Returns whether the user is currently authenticated and includes user profile if logged in",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns auth status and user data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "authenticated": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "displayName": {
+                          "type": "string",
+                          "example": "James Phillip De Guzman"
+                        },
+                        "emails": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "string",
+                                "example": "jamesphillipdeguzman@gmail.com"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "summary": "Logs out the current user and redirects to home",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirects to homepage after logout"
+          }
+        }
+      }
+    },
+    "/set-cookie": {
+      "get": {
+        "summary": "Set a secure, test cookie",
+        "description": "Useful for debugging cookie behavior",
+        "tags": [
+          "Development"
+        ],
+        "responses": {
+          "200": {
+            "description": "Cookie set successfully",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Cookie set"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "summary": "Get all products",
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of all products"
+          },
+          "500": {
+            "description": "An error occurred while fetching products"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new product",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "201": {
+            "description": "A new product created"
+          },
+          "400": {
+            "description": "Failed to create product"
+          },
+          "500": {
+            "description": "An error occurred while creating the product"
+          }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "summary": "Get a product by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique ID of the product"
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "The product with the specified ID"
+          },
+          "400": {
+            "description": "Invalid product ID format"
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "500": {
+            "description": "An error occurred while fetching the product"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a product by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique ID of the product"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "Product updated"
+          },
+          "400": {
+            "description": "Invalid product ID format"
+          },
+          "500": {
+            "description": "An error occurred while updating the product"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a product by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique ID of the product"
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "Product was deleted successfully"
+          },
+          "400": {
+            "description": "Invalid product ID format"
+          },
+          "500": {
+            "description": "An error occurred while deleting the product"
+          }
+        }
+      }
+    },
+    "/api/sales": {
+      "get": {
+        "summary": "Get all sales",
+        "tags": [
+          "Sales"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of all sales"
+          },
+          "500": {
+            "description": "An error occurred while fetching sales"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new sale",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              }
+            }
+          }
+        },
+        "tags": [
+          "Sales"
+        ],
+        "responses": {
+          "201": {
+            "description": "A new sale created"
+          },
+          "400": {
+            "description": "Failed to create sale"
+          },
+          "500": {
+            "description": "An error occurred while creating the sale"
+          }
+        }
+      }
+    },
+    "/api/sales/{id}": {
+      "get": {
+        "summary": "Get a sale by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique ID of the sale"
+          }
+        ],
+        "tags": [
+          "Sales"
+        ],
+        "responses": {
+          "200": {
+            "description": "The sale with the specified ID"
+          },
+          "400": {
+            "description": "Invalid sale ID format"
+          },
+          "404": {
+            "description": "Sale not found"
+          },
+          "500": {
+            "description": "An error occurred while fetching the sale"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a sale by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique ID of the sale"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              }
+            }
+          }
+        },
+        "tags": [
+          "Sales"
+        ],
+        "responses": {
+          "200": {
+            "description": "Sale updated"
+          },
+          "400": {
+            "description": "Invalid sale ID format"
+          },
+          "500": {
+            "description": "An error occurred while updating the sale"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a sale by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique ID of the sale"
+          }
+        ],
+        "tags": [
+          "Sales"
+        ],
+        "responses": {
+          "200": {
+            "description": "Sale was deleted successfully"
+          },
+          "400": {
+            "description": "Invalid sale ID format"
+          },
+          "500": {
+            "description": "An error occurred while deleting the sale"
+          }
+        }
+      }
+    },
+    "/api/sales/user/{userId}": {
+      "get": {
+        "summary": "Get a sale by User ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique User ID of the sale"
+          }
+        ],
+        "tags": [
+          "Sales"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of sales for the specified User ID"
+          },
+          "400": {
+            "description": "Invalid sale ID format"
+          },
+          "404": {
+            "description": "Sale not found"
+          },
+          "500": {
+            "description": "An error occurred while fetching the sale by User ID"
+          }
+        }
+      }
+    },
+    "/api/sales/customer/{customerId}": {
+      "get": {
+        "summary": "Get a sale by Customer ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique Customer ID of the sale"
+          }
+        ],
+        "tags": [
+          "Sales"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of sales for the specified Customer ID"
+          },
+          "400": {
+            "description": "Invalid sale ID format"
+          },
+          "404": {
+            "description": "Sale not found"
+          },
+          "500": {
+            "description": "An error occurred while fetching the sale by Customer ID"
+          }
+        }
+      }
+    }
+  }
+}

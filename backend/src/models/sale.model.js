@@ -10,12 +10,12 @@ const saleSchema = new mongoose.Schema(
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Customer',
-      required: true,
+      required: false, // TODO: Change to true once Customer model is working
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: false, // TODO: Change to true once User model is working
     },
     priceAtSale: {
       type: Number,
@@ -40,6 +40,11 @@ const saleSchema = new mongoose.Schema(
       required: true,
       default: Date.now,
     },
+    cashierName: {
+      type: String,
+      required: true,
+      default: 'unknown',
+    },
     paymentMethod: {
       type: String,
       required: true,
@@ -47,7 +52,9 @@ const saleSchema = new mongoose.Schema(
       enum: ['cash', 'credit', 'debit', 'paypal', 'gcash'],
     },
   },
-  { timestamps: true }, // for automatic createdAt and updatedAt fields
+  { timestamps: true },
 );
 
-export default mongoose.model('Sale', saleSchema);
+const Sale = mongoose.model('Sale', saleSchema);
+
+export default Sale;
