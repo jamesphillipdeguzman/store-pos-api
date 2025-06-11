@@ -16,6 +16,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       // Find or create user in DB
+      console.log('Google profile:', profile);
       try {
         const existingUser = await User.findOne({ googleId: profile.id });
 
@@ -25,14 +26,25 @@ passport.use(
           return done(null, existingUser);
         }
 
-        const newUser = await User.create({
-          googleId: profile.id,
-          name: profile.displayName,
-          email: profile.emails?.[0]?.value,
-          role: 'cashier', // default role
-          lastLogin: new Date(),
-        });
-        return done(null, newUser);
+        const email = profile.emails?.[0]?.value;
+        if (!email) {
+          console.error('Missing email in Google profile', profile);
+          return done(new Error('Email is required'), null);
+        }
+
+        try {
+          const newUser = await User.create({
+            googleId: profile.id,
+            name: profile.displayName,
+            email,
+            role: 'cashier', // default role
+            lastLogin: new Date(),
+          });
+          return done(null, newUser);
+        } catch (err) {
+          console.log('User create error', err);
+          return done(err, null);
+        }
       } catch (err) {
         return done(err, null);
       }
