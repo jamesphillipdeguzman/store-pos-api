@@ -3,10 +3,11 @@ import express from 'express';
 import {
   getCustomers,
   getCustomerById,
-  createCustomer,
+  postCustomer,
   updateCustomerById,
   deleteCustomerById,
 } from '../controllers/customer.controller.js';
+import { validateCustomer, validateCustomerUpdate } from '../middlewares/customer.validation.middleware.js';
 
 const router = express.Router();
 
@@ -17,10 +18,10 @@ router.get('/', getCustomers);
 router.get('/:id', getCustomerById);
 
 // Create a new customer
-router.post('/', createCustomer);
+router.post('/', validateCustomer, postCustomer);
 
 // Update a customer
-router.put('/:id', updateCustomerById);
+router.put('/:id', validateCustomerUpdate, updateCustomerById);
 
 // Delete a customer
 router.delete('/:id', deleteCustomerById);

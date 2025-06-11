@@ -8,6 +8,15 @@ import {
   updateUserById,
   deleteUserById,
 } from '../controllers/user.controller.js';
+import {
+  validateUserUpdate,
+  validateUserSignup,
+} from '../middlewares/user.validation.middleware.js';
+
+import {
+  validateMongoIdParam,
+  validateEmailQuery,
+} from '../middlewares/common.middleware.js';
 
 const router = express.Router();
 
@@ -15,16 +24,16 @@ const router = express.Router();
 router.get('/', getUsers);
 
 // Get a user by Id
-router.get('/:id', getUserById);
+router.get('/:id', validateMongoIdParam, getUserById);
 
 // Get a user by email
-router.get('/:id', getUserByEmail);
+router.get('/email', validateEmailQuery, getUserByEmail);
 
 // Create a new user
-router.post('/', createUser);
+router.post('/', validateUserSignup, createUser);
 
 // Update a user by Id
-router.put('/:id', updateUserById);
+router.put('/:id', validateUserUpdate, updateUserById);
 
 // Delete a user by Id
 router.delete('/:id', deleteUserById);

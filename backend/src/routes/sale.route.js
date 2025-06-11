@@ -4,10 +4,19 @@ import {
   getSaleById,
   getSalesByUserId,
   getSalesByCustomerId,
-  createSale,
-  updateSaleById,
-  deleteSaleById,
+  postSale,
+  updateSale,
+  deleteSale,
 } from '../controllers/sale.controller.js';
+
+import {
+  validateSale,
+  validateSaleUpdate,
+} from '../middlewares/sale.validation.middleware.js';
+import { validate } from '../middlewares/validate.middleware.js';
+import { hybridAuth } from '../middlewares/auth.middleware.js';
+import { validateMongoIdParam } from '../middlewares/common.middleware.js';
+
 const router = express.Router();
 
 // Get all sales
@@ -25,7 +34,7 @@ const router = express.Router();
  *        description: An error occurred while fetching sales
  *
  */
-router.get('/', getSales);
+router.get('/', hybridAuth, getSales);
 
 // Get a sale by Id
 /**
@@ -53,7 +62,7 @@ router.get('/', getSales);
  *        description: An error occurred while fetching the sale
  *
  */
-router.get('/:id', getSaleById);
+router.get('/:id', hybridAuth, validateMongoIdParam, validate, getSaleById);
 
 // Get a sale by User Id
 /**
@@ -81,7 +90,7 @@ router.get('/:id', getSaleById);
  *        description: An error occurred while fetching the sale by User ID
  *
  */
-router.get('/user/:userId', getSalesByUserId);
+router.get('/user/:userId', hybridAuth, validateMongoIdParam, getSalesByUserId);
 
 // Get a sale by Customer Id
 /**
@@ -109,7 +118,12 @@ router.get('/user/:userId', getSalesByUserId);
  *        description: An error occurred while fetching the sale by Customer ID
  *
  */
-router.get('/customer/:customerId', getSalesByCustomerId);
+router.get(
+  '/customer/:customerId',
+  hybridAuth,
+  validateMongoIdParam,
+  getSalesByCustomerId,
+);
 
 // Create a new sale
 /**
@@ -134,7 +148,7 @@ router.get('/customer/:customerId', getSalesByCustomerId);
  *        description: An error occurred while creating the sale
  *
  */
-router.post('/', createSale);
+router.post('/', hybridAuth, validateSale, validate, postSale);
 
 // Update a sale by Id
 /**
@@ -166,7 +180,14 @@ router.post('/', createSale);
  *        description: An error occurred while updating the sale
  *
  */
-router.put('/:id', updateSaleById);
+router.put(
+  '/:id',
+  hybridAuth,
+  validateMongoIdParam,
+  validateSaleUpdate,
+  validate,
+  updateSale,
+);
 
 // Delete a sale by Id
 /**
@@ -191,6 +212,6 @@ router.put('/:id', updateSaleById);
  *      500:
  *        description: An error occurred while deleting the sale
  */
-router.delete('/:id', deleteSaleById);
+router.delete('/:id', hybridAuth, validateMongoIdParam, deleteSale);
 
 export default router;

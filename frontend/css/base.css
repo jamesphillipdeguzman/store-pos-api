@@ -1,0 +1,185 @@
+:root {
+  --font-main: Roboto, "Segoe UI", sans-serif;
+  --color-bg: #e6f7ff;
+  --header-bg: #8bc2e6;
+  --header-border: #b0bec5;
+  --form-bg: #f0f0f0;
+  --color-btn: #005cbf;
+  --color-btn-hover: #004a99;
+  --color-border: #999;
+  --color-text: #1a1a1a;
+  --color-link: #005cbf;
+  --focus-outline: 2px solid #005cbf;
+}
+
+body {
+  background-color: var(--color-bg);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text);
+  font-family: var(--font-main);
+}
+
+form {
+  width: 50%;
+  max-width: 80vw;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--form-bg);
+  font-family: var(--font-main);
+}
+
+h1,
+h2,
+p {
+  text-align: center;
+  font-family: var(--font-main);
+}
+
+a {
+  text-decoration: underline;
+  color: var(--color-link);
+}
+
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+}
+
+.demo {
+  display: flex;
+  width: 80vw;
+  max-width: 100%;
+  gap: 2rem;
+  margin: 2rem auto;
+}
+
+#userInfo {
+  color: var(--color-text);
+  font-size: 1rem;
+  font-family: var(--font-main);
+}
+
+#productForm,
+#saleForm {
+  display: none;
+}
+
+.submit {
+  height: 40px;
+}
+
+#paymentMethod {
+  margin-bottom: auto;
+}
+
+.postForm {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.postForm input,
+.postForm textarea,
+.postForm select {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  display: block;
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+#authContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.auth-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--color-btn);
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.auth-button:hover {
+  background-color: var(--color-btn-hover);
+}
+
+.pos-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.pos-title h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.pos-title img {
+  vertical-align: middle;
+}
+
+.pos-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  border-radius: 10px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--color-text);
+}
+
+@media (max-width: 600px) {
+  .demo {
+    flex-direction: column;
+    width: 100vw;
+  }
+
+  form {
+    width: 90%;
+  }
+
+  header {
+    flex-direction: column;
+  }
+
+  h1 {
+    font-size: 1rem;
+  }
+}

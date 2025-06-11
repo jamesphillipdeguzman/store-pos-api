@@ -1,5 +1,6 @@
-import swaggerJSDoc from 'swagger-jsdoc';
-import components from './components.js';
+import swaggerJsdoc from 'swagger-jsdoc';
+// import swaggerUi from 'swagger-ui-express';
+import { components } from './components.js';
 
 const options = {
   definition: {
@@ -15,7 +16,7 @@ const options = {
         url: 'https://store-pos-api.onrender.com/',
       },
       {
-        url: 'http:127.0.0.1/3001',
+        url: 'http://127.0.0.1:3001',
       },
     ],
     tags: [
@@ -38,6 +39,6 @@ const options = {
   apis: ['./src/routes/*.js'],
 };
 
-const swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = swaggerJsdoc(options);
 
 export default swaggerSpec;

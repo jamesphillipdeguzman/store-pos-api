@@ -60,9 +60,13 @@ git clone https://github.com/jamesphillipdeguzman/store-pos-api.git
 cd store-pos-api
 npm install
 npm run server
-
-✅ Live Links
-🔗 Backend: TBA
-
-🔗 Frontend: TBA
 ```
+✅ Live Links
+## Deployed backend API on Render
+
+[🔗 https://store-pos-api.onrender.com/](https://store-pos-api.onrender.com/)
+
+## Deployed frontend html on Netlify
+
+[🔗 https://store-pos-api.netlify.app/](https://store-pos-api.netlify.app/)
+
