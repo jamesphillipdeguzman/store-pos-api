@@ -61,8 +61,8 @@ router.get(
     // Create JWT payload
     const payload = {
       id: req.user.id,
-      displayName: req.user.displayName,
-      email: req.user.emails[0]?.value || null,
+      name: req.user.name,
+      email: req.user.email || null,
     };
 
     // Sign JWT with secret and expiration
