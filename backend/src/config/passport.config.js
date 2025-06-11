@@ -26,7 +26,7 @@ passport.use(
           return done(null, existingUser);
         }
 
-        const email = profile.emails?.[0]?.value;
+        const email = profile.emails?.[0]?.value; //This line safely extracts the primary email (usually the first one) with optional chaining. Google's OAuth profile object may include multiple emails or none at all
         if (!email) {
           console.error('Missing email in Google profile', profile);
           return done(new Error('Email is required'), null);
