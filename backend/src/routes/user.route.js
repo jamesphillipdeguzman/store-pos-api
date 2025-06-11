@@ -19,7 +19,7 @@ router.get('/', getUsers);
 router.get('/:id', getUserById);
 
 // Get a user by email
-router.get('/:id', getUserByEmail);
+router.get('/email', getUserByEmail);
 
 // Create a new user
 router.post('/', validateUserSignup, createUser);

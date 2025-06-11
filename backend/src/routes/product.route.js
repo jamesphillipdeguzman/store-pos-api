@@ -149,6 +149,12 @@ router.put(
  *      500:
  *        description: An error occurred while deleting the product
  */
-router.delete('/:id', hybridAuth, validateMongoIdParam, deleteProduct);
+router.delete(
+  '/:id',
+  hybridAuth,
+  validateMongoIdParam,
+  validate,
+  deleteProduct,
+);
 
 export default router;
