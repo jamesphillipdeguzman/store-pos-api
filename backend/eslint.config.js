@@ -15,4 +15,10 @@ export default [
       'no-debugger': 'error',
     },
   },
+  {
+    // Add jest globals to your eslint config
+    env: {
+      jest: true,
+    },
+  },
 ];

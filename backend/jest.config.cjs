@@ -3,4 +3,6 @@ module.exports = {
     '^.+\\.js$': 'babel-jest',
   },
   testEnvironment: 'node',
+  // collectCoverage: true,
+  // coverageReporters: ['html'],
 };
