@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import User from '../models/user.model.js';
 
 // Load all environment variables first
 dotenv.config();
@@ -13,20 +14,56 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.GOOGLE_CALLBACK_URL,
     },
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // Find or create user in DB
-      return done(null, profile);
+      console.log('Google profile:', profile);
+      try {
+        const existingUser = await User.findOne({ googleId: profile.id });
+
+        if (existingUser) {
+          existingUser.lastLogin = new Date();
+          await existingUser.save();
+          return done(null, existingUser);
+        }
+
+        const email = profile.emails?.[0]?.value;
+        if (!email) {
+          console.error('Missing email in Google profile', profile);
+          return done(new Error('Email is required'), null);
+        }
+
+        try {
+          const newUser = await User.create({
+            googleId: profile.id,
+            name: profile.displayName,
+            email,
+            role: 'cashier', // default role
+            lastLogin: new Date(),
+          });
+          return done(null, newUser);
+        } catch (err) {
+          console.log('User create error', err);
+          return done(err, null);
+        }
+      } catch (err) {
+        return done(err, null);
+      }
     },
   ),
 );
 
 //Serialize the user to store user data in the session (usually user ID)
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user._id); // Only store user ID
 });
 // Deserialize the user from the session using the stored data (e.g., user ID)
-passport.deserializeUser((user, done) => {
-  done(null, user);
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 export default passport;
