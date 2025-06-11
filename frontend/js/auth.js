@@ -102,7 +102,7 @@ function updateAuthUI() {
     if (loginButton) loginButton.style.display = "none";
     if (userInfo) {
       userInfo.style.display = "block";
-      userInfo.textContent = `Welcome, ${authState.user.displayName}`;
+      userInfo.textContent = `Welcome, ${authState.user?.name || "Guest"}`;
       console.log("userInfo:", userInfo.textContent);
     }
     if (logoutButton) logoutButton.style.display = "block";
