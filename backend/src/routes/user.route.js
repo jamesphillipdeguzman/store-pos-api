@@ -8,6 +8,7 @@ import {
   updateUserById,
   deleteUserById,
 } from '../controllers/user.controller.js';
+import { validateUserUpdate, validateUserSignup } from '../middlewares/user.validation.middleware.js';
 
 const router = express.Router();
 
@@ -21,10 +22,10 @@ router.get('/:id', getUserById);
 router.get('/:id', getUserByEmail);
 
 // Create a new user
-router.post('/', createUser);
+router.post('/', validateUserSignup, createUser);
 
 // Update a user by Id
-router.put('/:id', updateUserById);
+router.put('/:id', validateUserUpdate, updateUserById);
 
 // Delete a user by Id
 router.delete('/:id', deleteUserById);

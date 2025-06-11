@@ -7,6 +7,7 @@ import {
   updateCustomerById,
   deleteCustomerById,
 } from '../controllers/customer.controller.js';
+import { validateCustomer, validateCustomerUpdate } from '../middlewares/customer.validation.middleware.js';
 
 const router = express.Router();
 
@@ -17,10 +18,10 @@ router.get('/', getCustomers);
 router.get('/:id', getCustomerById);
 
 // Create a new customer
-router.post('/', postCustomer);
+router.post('/', validateCustomer, postCustomer);
 
 // Update a customer
-router.put('/:id', updateCustomerById);
+router.put('/:id', validateCustomerUpdate, updateCustomerById);
 
 // Delete a customer
 router.delete('/:id', deleteCustomerById);
