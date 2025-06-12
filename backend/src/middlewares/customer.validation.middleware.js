@@ -9,20 +9,37 @@ const runChecks = (req, res, next) => {
 };
 
 export const validateCustomer = [
-  body('firstName').notEmpty().withMessage('First name is required'),
-  body('lastName').notEmpty().withMessage('Last name is required'),
-  body('email').isEmail().withMessage('Valid email is required'),
-  body('phone').optional().isString(),
-  body('address').optional().isString(),
-  runChecks
+  body('firstName').notEmpty().withMessage('First name is required').trim(),
+  body('lastName').notEmpty().withMessage('Last name is required').trim(),
+  body('email')
+    .isEmail()
+    .withMessage('Valid email is required')
+    .trim()
+    .normalizeEmail(),
+  body('phone').optional().isString().trim(),
+  body('address').optional().isString().trim(),
+  runChecks,
 ];
 
 export const validateCustomerUpdate = [
-  param('id').isInt().withMessage('Invalid customer id'),
-  body('firstName').optional().notEmpty().withMessage('First name is required'),
-  body('lastName').optional().notEmpty().withMessage('Last name is required'),
-  body('email').optional().isEmail().withMessage('Valid email is required'),
-  body('phone').optional().isString(),
-  body('address').optional().isString(),
-  runChecks
+  param('id').isMongoId().withMessage('Invalid customer id'),
+  body('firstName')
+    .optional()
+    .notEmpty()
+    .withMessage('First name is required')
+    .trim(),
+  body('lastName')
+    .optional()
+    .notEmpty()
+    .withMessage('Last name is required')
+    .trim(),
+  body('email')
+    .optional()
+    .isEmail()
+    .withMessage('Valid email is required')
+    .trim()
+    .normalizeEmail(),
+  body('phone').optional().isString().trim(),
+  body('address').optional().isString().trim(),
+  runChecks,
 ];

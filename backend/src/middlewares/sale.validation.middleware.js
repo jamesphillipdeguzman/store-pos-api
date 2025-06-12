@@ -1,18 +1,24 @@
 import { body } from 'express-validator';
 
 export const validateSale = [
-  body('productId').notEmpty().withMessage('Product ID is required'),
-  // body('customerId').notEmpty().withMessage('Customer ID is required'),
-  // body('userId').notEmpty().withMessage('User ID is required'),
-  // TODO: Make customerId and userId optional for now:
+  body('productId')
+    .notEmpty()
+    .withMessage('Product ID is required')
+    .bail()
+    .isMongoId()
+    .withMessage('Invalid product ID'),
   body('customerId')
-    .optional({ nullable: true })
+    .notEmpty()
+    .withMessage('Customer ID is required')
+    .bail()
     .isMongoId()
-    .withMessage('Customer ID must be a valid Mongo ID'),
+    .withMessage('Invalid customer ID'),
   body('userId')
-    .optional({ nullable: true })
+    .notEmpty()
+    .withMessage('User ID is required')
+    .bail()
     .isMongoId()
-    .withMessage('User ID must be a valid Mongo ID'),
+    .withMessage('Invalid user ID'),
   body('priceAtSale')
     .isFloat({ gt: 0 })
     .withMessage('Price at sale must be greater than 0'),
@@ -27,18 +33,36 @@ export const validateSale = [
     .isString()
     .trim()
     .notEmpty()
-    .default('unknown')
     .withMessage('Cashier name cannot be empty if provided'),
-  body('paymentMethod').notEmpty().withMessage('Payment method is required'),
+  body('paymentMethod')
+    .notEmpty()
+    .withMessage('Payment method is required')
+    .isIn(['cash', 'credit', 'paypal', 'gcash'])
+    .withMessage('Invalid payment method'),
 ];
 
 export const validateSaleUpdate = [
-  body('productId').optional().notEmpty().withMessage('Product ID is required'),
+  body('productId')
+    .optional()
+    .notEmpty()
+    .withMessage('Product ID is required')
+    .bail()
+    .isMongoId()
+    .withMessage('Invalid product ID'),
   body('customerId')
     .optional()
     .notEmpty()
-    .withMessage('Customer ID is required'),
-  body('userId').optional().notEmpty().withMessage('User ID is required'),
+    .withMessage('Customer ID is required')
+    .bail()
+    .isMongoId()
+    .withMessage('Invalid customer ID'),
+  body('userId')
+    .optional()
+    .notEmpty()
+    .withMessage('User ID is required')
+    .bail()
+    .isMongoId()
+    .withMessage('Invalid user ID'),
   body('priceAtSale')
     .optional()
     .isFloat({ gt: 0 })
@@ -56,10 +80,11 @@ export const validateSaleUpdate = [
     .isString()
     .trim()
     .notEmpty()
-    .default('unknown')
     .withMessage('Cashier name cannot be empty if provided'),
   body('paymentMethod')
     .optional()
     .notEmpty()
-    .withMessage('Payment method is required'),
+    .withMessage('Payment method is required')
+    .isIn(['cash', 'credit', 'paypal', 'gcash'])
+    .withMessage('Invalid payment method'),
 ];

@@ -10,12 +10,12 @@ const saleSchema = new mongoose.Schema(
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Customer',
-      required: false, // TODO: Change to true once Customer model is working
+      required: true,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: false, // TODO: Change to true once User model is working
+      required: true,
     },
     priceAtSale: {
       type: Number,
