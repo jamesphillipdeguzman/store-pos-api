@@ -1,4 +1,5 @@
 import express from 'express';
+import { hybridAuth } from '../middlewares/auth.middleware.js';
 
 import {
   getCustomers,
