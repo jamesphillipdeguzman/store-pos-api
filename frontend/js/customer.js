@@ -1,21 +1,55 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const customerSelect = document.getElementById("saleCustomer");
+import { BACKEND_ORIGIN } from "./auth.js";
 
-  try {
-    const response = await fetch(
-      "https://store-pos-api.onrender.com/api/customers"
-    );
-    const customers = response.json();
+window.addEventListener("DOMContentLoaded", () => {
+  const customerForm = document.getElementById("customerForm");
 
-    customers.forEach((customer) => {
+  customerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const customer = {
+      name: document.getElementById("customerName").value,
+      email: document.getElementById("customerEmail").value,
+      phone: document.getElementById("customerPhone").value,
+      address: document.getElementById("customerAddress").value,
+    };
+
+    try {
+      const response = await fetch(`${BACKEND_ORIGIN}/api/customers`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        mode: "cors",
+        body: JSON.stringify(customer),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(`Customer creation failed: ${data.message}`);
+        return;
+      }
+
+      alert("Customer created successfully!");
+      console.log("Customer created", data);
+
+      // Prefill customerId in sale form
+      const customerSelect = document.getElementById("saleCustomer");
       const option = document.createElement("option");
-      option.value = customer._id;
-      option.textContent =
-        `${customer.firstName || ""} ${customer.lastName || ""}`.trim() ||
-        "unknown customer";
+      option.value = data._id;
+      option.textContent = data.name;
       customerSelect.appendChild(option);
-    });
-  } catch (error) {
-    console.log("Failed to load customers: ", error);
-  }
+      customerSelect.value = data._id;
+
+      // Show product form
+      document.getElementById("productForm").style.display = "flex";
+
+      // Optionally reset customer form
+      customerForm.reset();
+    } catch (err) {
+      console.error("Error submitting customer:", err);
+      alert("Error creating customer.");
+    }
+  });
 });
