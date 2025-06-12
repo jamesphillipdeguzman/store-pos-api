@@ -33,6 +33,8 @@ This is a simple Store Point of Sale (POS) API built with Node.js, Express, and 
 
 - `GET /api/sales`
 - `GET /api/sales/:id`
+- `GET /api/sales/user/:userId`
+- `GET /api/sales/customer/:customerId`
 - `POST /api/sales`
 - `PUT /api/sales/:id`
 - `DELETE /api/sales/:id`
@@ -41,7 +43,12 @@ This is a simple Store Point of Sale (POS) API built with Node.js, Express, and 
 
 - `GET /api/users`
 - `GET /api/users/:id`
+- `GET /api/users/profile`
+- `GET /api/users/email?email=value`
 - `POST /api/users`
+- `POST /api/users/signup`
+- `POST /api/users/login`
+- `POST /api/users/logout`
 - `PUT /api/users/:id`
 - `DELETE /api/users/:id`
 
@@ -61,7 +68,9 @@ cd store-pos-api
 npm install
 npm run server
 ```
+
 ✅ Live Links
+
 ## Deployed backend API on Render
 
 [🔗 https://store-pos-api.onrender.com/](https://store-pos-api.onrender.com/)
@@ -69,4 +78,3 @@ npm run server
 ## Deployed frontend html on Netlify
 
 [🔗 https://store-pos-api.netlify.app/](https://store-pos-api.netlify.app/)
-
