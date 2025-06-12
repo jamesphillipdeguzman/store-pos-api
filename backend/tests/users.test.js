@@ -14,6 +14,7 @@ jest.mock('../src/middlewares/auth.middleware.js', () => ({
 
 jest.mock('../src/middlewares/common.middleware.js', () => ({
   validateMongoIdParam: (req, res, next) => next(),
+  validateEmailQuery: (req, res, next) => next(),
 }));
 
 // Mock controller methods
