@@ -2,15 +2,20 @@ import request from 'supertest';
 import express from 'express';
 import userRoutes from '../src/routes/user.route.js';
 
-// This would bypass middleware so they don’t block the test
+// This would bypass middleware so they don't block the test
 // This focuses the test only on routing and controller logic
 jest.mock('../src/middlewares/auth.middleware.js', () => ({
   hybridAuth: (req, res, next) => next(),
 }));
 
-// jest.mock('../src/middlewares/validate.middleware.js', () => ({
-//   validate: (req, res, next) => next(),
-// }));
+jest.mock('../src/middlewares/validate.middleware.js', () => ({
+  validate: (req, res, next) => next(),
+}));
+
+jest.mock('../src/middlewares/user.validation.middleware.js', () => ({
+  validateUserUpdate: (req, res, next) => next(),
+  validateUserSignup: (req, res, next) => next(),
+}));
 
 jest.mock('../src/middlewares/common.middleware.js', () => ({
   validateMongoIdParam: (req, res, next) => next(),
@@ -30,6 +35,9 @@ jest.mock('../src/controllers/user.controller.js', () => ({
   userLogout: (req, res) => res.status(200).json({ logout: true }),
   getUserByEmail: (req, res) =>
     res.status(200).json({ email: req.query.email, name: 'Found user' }),
+  postUser: (req, res) => res.status(201).json({ created: true }),
+  updateUser: (req, res) => res.status(200).json({ updated: true }),
+  deleteUser: (req, res) => res.status(200).json({ deleted: true }),
 }));
 
 //  Creating the Test App
