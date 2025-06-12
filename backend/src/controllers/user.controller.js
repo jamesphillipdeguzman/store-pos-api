@@ -188,9 +188,8 @@ export const userSignup = async (req, res) => {
  * @desc Handle user login
  */
 export const userLogin = async (req, res) => {
-  const { email, password } = req.body;
+  const { email } = req.body;
   try {
-    // In a real app, you'd validate password and issue a JWT
     const user = await findUserByEmail(email);
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -213,7 +212,6 @@ export const userLogin = async (req, res) => {
  */
 export const userLogout = async (req, res) => {
   try {
-    // You might clear a cookie/token here in a real app
     return res.status(200).json({ logout: true });
   } catch (error) {
     console.log('Logout error:', error);
