@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="icon" href="images/favicon/favicon-96x96-nobg.ico" type="image/x-icon">
     <script src="js/auth.js" type="module"></script>
+    <script src="js/customer.js" type="module"></script>
+    <script src="js/product.js" type="module"></script>
     <script src="js/base.js" type="module"></script>
 </head>
 
@@ -49,6 +51,22 @@
         <h1>Frontend / Backend Demo (store-pos-api) </h1>
         <p id="appMessage"></p>
         <div class="demo">
+
+            <!-- Create Customer Form -->
+            <form id="customerForm" class="postForm">
+                <h2> Create Customer </h2>
+                <label for="customerName">Full Name:</label>
+                <input type="text" id="customerName" name="customerName" required><br>
+                <label for="customerEmail">Email:</label>
+                <input type="email" id="customerEmail" name="customerEmail" required><br>
+                <label for="customerPhone">Phone Number:</label>
+                <input type="tel" id="customerPhone" name="customerPhone" required><br>
+                <label for="customerAddress">Address:</label>
+                <textarea id="customerAddress" name="customerAddress"></textarea><br>
+
+                <button class="submit">Submit Customer</button>
+
+            </form>
 
             <!-- Create Product Form -->
             <form id="productForm" class="postForm">
@@ -110,11 +128,12 @@
             <form id="saleForm" class="postForm">
                 <img src="images/create-sale.svg" alt="create sale icon image" height="40" width="40">
                 <h2> Create Sale </h2>
-                <label for="productId">Product ID:</label>
-                <input type="text" id="productId" name="productId" required><br>
 
-                <input type="hidden" id="customerId" />
-                <input type="hidden" id="userId" />
+                <label for="saleCustomer">Customer:</label>
+                <select id="saleCustomer" name="customerId" required></select><br>
+
+                <label for="saleProduct">Product:</label>
+                <select id="saleProduct" name="productId" required></select><br>
 
                 <label for="priceAtSale">Price at Sale:</label>
                 <input type="number" id="priceAtSale" name="priceAtSale" step="0.01" required><br>

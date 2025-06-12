@@ -95,8 +95,14 @@ function updateAuthUI() {
   const logoutButton = document.getElementById("logoutButton");
   const appMessage = document.getElementById("appMessage");
   const productForm = document.getElementById("productForm");
+  const userIdField = document.getElementById("userId");
 
   productForm.style.display = "none";
+
+  if (userIdField && authState.user?._id) {
+    userIdField.value = authState.user._id || authState.user.sub;
+    console.log("userId set to: ", userIdField.value);
+  }
 
   if (authState.isAuthenticated) {
     if (loginButton) loginButton.style.display = "none";
