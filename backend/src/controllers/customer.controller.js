@@ -14,9 +14,9 @@ import {
 export const getCustomers = async (req, res) => {
   try {
     const customers = await findAllCustomers();
-    if (!customers || customers.length === 0) {
-      return res.status(404).json({ error: 'No customers found.' });
-    }
+    // if (!customers || customers.length === 0) {
+    //   return res.status(404).json({ error: 'No customers found.' });
+    // }
     console.log('[CUSTOMER] GET /api/customers was called.');
     return res.status(200).json(customers);
   } catch (error) {
