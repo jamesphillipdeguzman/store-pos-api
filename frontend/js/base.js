@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
   categoryInput.addEventListener("change", () => {
     const selectedCategory = categoryInput.value;
     if (selectedCategory) {
-      const generatedSKU = generatedSKU(selectedCategory);
+      const generatedSKU = generateSKU(selectedCategory);
       skuInput.value = generatedSKU;
     } else {
       skuInput.value = "";
