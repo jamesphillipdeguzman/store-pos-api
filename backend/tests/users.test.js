@@ -8,9 +8,9 @@ jest.mock('../src/middlewares/auth.middleware.js', () => ({
   hybridAuth: (req, res, next) => next(),
 }));
 
-jest.mock('../src/middlewares/validate.middleware.js', () => ({
-  validate: (req, res, next) => next(),
-}));
+// jest.mock('../src/middlewares/validate.middleware.js', () => ({
+//   validate: (req, res, next) => next(),
+// }));
 
 jest.mock('../src/middlewares/common.middleware.js', () => ({
   validateMongoIdParam: (req, res, next) => next(),
@@ -27,6 +27,8 @@ jest.mock('../src/controllers/user.controller.js', () => ({
   userSignup: (req, res) => res.status(201).json({ created: true }),
   userLogin: (req, res) => res.status(200).json({ token: 'abc123' }),
   userLogout: (req, res) => res.status(200).json({ logout: true }),
+  getUserByEmail: (req, res) =>
+    res.status(200).json({ email: req.query.email, name: 'Found user' }),
 }));
 
 //  Creating the Test App
@@ -66,21 +68,30 @@ describe('User routes', () => {
   });
 
   //POST /api/users/login
-   // Simulates login. Expects a token in response.
+  // Simulates login. Expects a token in response.
   test('POST /api/users/login', async () => {
     const res = await request(app)
       .post('/api/users/login')
-      .send({ email: 'john@email.com' });  // dummy data 
+      .send({ email: 'john@email.com' }); // dummy data
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('token');
   });
 
   // POST api users logout
-// This simulates logging out and expects a logout: true response.
+  // This simulates logging out and expects a logout: true response.
   test('POST /api/users/logout', async () => {
     const res = await request(app).post('/api/users/logout');
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('logout', true);
+  });
+
+  // Simulates email checks
+  test('GET /api/users/email', async () => {
+    const res = await request(app).get(
+      '/api/users/email?email=test@example.com',
+    );
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty('email', 'test@example.com');
   });
 });
