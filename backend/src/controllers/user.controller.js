@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 import {
   findAllUsers,
   findUserById,
@@ -7,6 +9,8 @@ import {
   updateUserById as updateUserByIdService,
   deleteUserById as deleteUserByIdService,
 } from '../services/user.service.js';
+
+import jwt from 'jsonwebtoken';
 
 /**
  * @route GET /api/users
@@ -143,5 +147,76 @@ export const deleteUser = async (req, res) => {
     return res
       .status(500)
       .json({ error: 'An error occurred while deleting the user.' });
+  }
+};
+
+/**
+ * @route GET /api/users/profile
+ * @desc Get currently logged-in user's profile
+ */
+export const getUserProfile = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await findUserById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log('Error fetching user profile:', error);
+    return res.status(500).json({ error: 'Failed to fetch user profile.' });
+  }
+};
+
+/**
+ * @route POST /api/users/signup
+ * @desc Handle user signup
+ */
+export const userSignup = async (req, res) => {
+  const userData = req.body;
+  try {
+    const newUser = await createUserService(userData);
+    return res.status(201).json({ created: true, user: newUser });
+  } catch (error) {
+    console.log('Error during user signup:', error);
+    return res.status(500).json({ error: 'Signup failed.' });
+  }
+};
+
+/**
+ * @route POST /api/users/login
+ * @desc Handle user login
+ */
+export const userLogin = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    // In a real app, you'd validate password and issue a JWT
+    const user = await findUserByEmail(email);
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const payload = { _id: user._id, email: user.email };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+    return res.status(200).json(token);
+  } catch (error) {
+    console.log('Login error:', error);
+    return res.status(500).json({ error: 'Login failed.' });
+  }
+};
+
+/**
+ * @route POST /api/users/logout
+ * @desc Handle user logout
+ */
+export const userLogout = async (req, res) => {
+  try {
+    // You might clear a cookie/token here in a real app
+    return res.status(200).json({ logout: true });
+  } catch (error) {
+    console.log('Logout error:', error);
+    return res.status(500).json({ error: 'Logout failed.' });
   }
 };
