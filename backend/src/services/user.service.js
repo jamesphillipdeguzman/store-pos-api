@@ -5,7 +5,7 @@ import User from '../models/user.model.js';
  * @returns {Promise<Array>} Array of all users
  */
 export const findAllUsers = async () => {
-  return User.find().select('-password');
+  return User.find();
 };
 
 /**
@@ -14,7 +14,7 @@ export const findAllUsers = async () => {
  * @returns {Promise<Object>} User object
  */
 export const findUserById = async (id) => {
-  return User.findById(id).select('-password');
+  return User.findById(id);
 };
 
 /**
@@ -43,7 +43,7 @@ export const createUser = async (data) => {
  * @returns {Promise<Object>} Update result
  */
 export const updateUserById = async (id, updates) => {
-  return User.findByIdAndUpdate(id, updates, { new: true }).select('-password');
+  return User.findByIdAndUpdate(id, updates, { new: true });
 };
 
 /**
