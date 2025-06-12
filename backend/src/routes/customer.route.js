@@ -4,8 +4,8 @@ import {
   getCustomers,
   getCustomerById,
   postCustomer,
-  updateCustomerById,
-  deleteCustomerById,
+  updateCustomer,
+  deleteCustomer,
 } from '../controllers/customer.controller.js';
 import {
   validateCustomer,
@@ -30,10 +30,10 @@ router.put(
   '/:id',
   validateMongoIdParam,
   validateCustomerUpdate,
-  updateCustomerById,
+  updateCustomer,
 );
 
 // Delete a customer
-router.delete('/:id', validateMongoIdParam, deleteCustomerById);
+router.delete('/:id', validateMongoIdParam, deleteCustomer);
 
 export default router;

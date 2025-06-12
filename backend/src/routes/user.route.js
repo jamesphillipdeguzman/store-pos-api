@@ -4,9 +4,9 @@ import {
   getUsers,
   getUserById,
   getUserByEmail,
-  createUser,
-  updateUserById,
-  deleteUserById,
+  postUser,
+  updateUser,
+  deleteUser,
 } from '../controllers/user.controller.js';
 import {
   validateUserUpdate,
@@ -30,12 +30,12 @@ router.get('/email', validateEmailQuery, getUserByEmail);
 router.get('/:id', validateMongoIdParam, getUserById);
 
 // Create a new user
-router.post('/', validateUserSignup, createUser);
+router.post('/', validateUserSignup, postUser);
 
 // Update a user by Id
-router.put('/:id', validateMongoIdParam, validateUserUpdate, updateUserById);
+router.put('/:id', validateMongoIdParam, validateUserUpdate, updateUser);
 
 // Delete a user by Id
-router.delete('/:id', validateMongoIdParam, deleteUserById);
+router.delete('/:id', validateMongoIdParam, deleteUser);
 
 export default router;
