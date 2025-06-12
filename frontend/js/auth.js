@@ -95,8 +95,10 @@ function updateAuthUI() {
   const logoutButton = document.getElementById("logoutButton");
   const appMessage = document.getElementById("appMessage");
   const productForm = document.getElementById("productForm");
+  const customerForm = document.getElementById("customerForm");
   const userIdField = document.getElementById("userId");
 
+  customerForm.style.display = "none";
   productForm.style.display = "none";
 
   if (userIdField && authState.user?._id) {
@@ -113,6 +115,7 @@ function updateAuthUI() {
     }
     if (logoutButton) logoutButton.style.display = "block";
     if (appMessage) appMessage.textContent = "Ready for testing";
+    customerForm.style.display = "flex";
     productForm.style.display = "flex";
   } else {
     if (loginButton) loginButton.style.display = "block";
@@ -121,6 +124,7 @@ function updateAuthUI() {
     if (appMessage)
       appMessage.textContent =
         "Please sign in with Google to access this feature.";
+    customerForm.style.display = "none";
     productForm.style.display = "none";
   }
 }
