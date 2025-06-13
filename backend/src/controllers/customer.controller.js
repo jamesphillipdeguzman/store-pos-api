@@ -58,26 +58,29 @@ export const getCustomerById = async (req, res) => {
  */
 
 export const postCustomer = async (req, res) => {
-  const name = req.body.name?.trim();
-  if (name) {
-    const [firstName, ...lastNameParts] = name.split(' ');
-    req.body.firstName = firstName;
-    req.body.lastName = lastNameParts.join(' ') || '';
-  }
-
-  const customerData = req.body;
   try {
+    // Optional fallback for name, if frontend only sends full name
+    const name = req.body.name?.trim();
+    if (name && !req.body.firstName && !req.body.lastName) {
+      const [firstName, ...lastNameParts] = name.split(' ');
+      req.body.firstName = firstName;
+      req.body.lastName = lastNameParts.join(' ') || '';
+    }
+
+    const customerData = req.body;
+
     const newCustomer = await createCustomerService(customerData);
     if (!newCustomer) {
       return res.status(400).json({ error: 'Failed to create customer.' });
     }
+
     console.log(`[CUSTOMER] POST /api/customers was called`);
     return res.status(201).json(newCustomer);
   } catch (error) {
-    console.log('Error creating customer:', error);
-    return res
-      .status(500)
-      .json({ error: 'An error occurred while creating the customer.' });
+    console.error('Error creating customer:', error);
+    return res.status(500).json({
+      error: error.message || 'An error occurred while creating the customer.',
+    });
   }
 };
 
