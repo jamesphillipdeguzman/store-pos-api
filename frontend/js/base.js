@@ -35,6 +35,26 @@ window.addEventListener("DOMContentLoaded", () => {
   productForm = document.getElementById("productForm");
   saleForm = document.getElementById("saleForm");
 
+  // Restore customer name and ID in the dropdown (after page reload)
+  const saleCustomerSelect = document.getElementById("saleCustomer");
+  const savedCustomerId = localStorage.getItem("customerId");
+  const savedCustomerName = localStorage.getItem("customerName");
+
+  if (saleCustomerSelect && savedCustomerId && savedCustomerName) {
+    let exists = [...saleCustomerSelect.options].some(
+      (opt) => opt.value === savedCustomerId
+    );
+
+    if (!exists) {
+      const option = document.createElement("option");
+      option.value = savedCustomerId;
+      option.textContent = savedCustomerName;
+      saleCustomerSelect.appendChild(option);
+    }
+
+    saleCustomerSelect.value = savedCustomerId;
+  }
+
   // --- Set up totalAmount calculation when quantity changes ---
   const quantityInput = document.getElementById("quantity");
   const priceAtSaleInput = document.getElementById("priceAtSale");
@@ -111,6 +131,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
       if (customerIdInput && savedCustomerId) {
         customerIdInput.value = savedCustomerId;
+      }
+
+      // Grab the customerName from local storage
+      const savedCustomerName = localStorage.getItem("customerName");
+      const customerNameInput = document.getElementById("customerName");
+
+      if (customerNameInput && savedCustomerName) {
+        customerNameInput.value = savedCustomerName;
       }
 
       // Grab the userId from local storage
