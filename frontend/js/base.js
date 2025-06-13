@@ -1,4 +1,5 @@
 import { BACKEND_ORIGIN, updateAuthUI } from "./auth.js";
+import { clearForm } from "./utils.js";
 window.addEventListener("DOMContentLoaded", () => {
   let productForm;
   let saleForm;
@@ -223,4 +224,31 @@ window.addEventListener("DOMContentLoaded", () => {
       alert("Error creating sale. Please try again.");
     }
   });
+
+  // Clear Customer Form
+  const clearCustomerBtn = document.querySelector("#customerForm .clear");
+  if (clearCustomerBtn) {
+    clearCustomerBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      clearForm("customerForm");
+    });
+  }
+
+  // Clear Product Form
+  const clearProductBtn = document.querySelector("#productForm .clear");
+  if (clearProductBtn) {
+    clearProductBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      clearForm("productForm");
+    });
+  }
+
+  // Clear Sales Form
+  const clearSaleBtn = document.querySelector("#saleForm .clear");
+  if (clearSaleBtn) {
+    clearSaleBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      clearForm("saleForm");
+    });
+  }
 });

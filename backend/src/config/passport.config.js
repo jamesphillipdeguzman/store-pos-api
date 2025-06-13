@@ -10,6 +10,8 @@ dotenv.config();
 const adminEmails = [
   'jamesphillipdeguzman@gmail.com',
   'samuel.riverosb@gmail.com',
+  'gbebia2@gmail.com',
+  'linaresjhefer@gmail.com',
 ].map((e) => e.toLowerCase());
 
 // Configure GoogleStrategy to use pre-loaded env variables
