@@ -64,6 +64,36 @@ function openGoogleAuthPopup() {
   });
 }
 
+export async function fetchUserInfo() {
+  try {
+    const res = await fetch(`${BACKEND_ORIGIN}/api/users/profile`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // or cookie if you're using sessions
+      },
+      credentials: "include", // if using session-based auth
+    });
+
+    if (!res.ok) throw new Error("Not authenticated");
+
+    const user = await res.json();
+
+    // Save _id as userId in localStorage or directly to the form
+    localStorage.setItem("userId", user._id);
+
+    // Optional: populate hidden field in sale form
+    const userIdInput = document.getElementById("userId");
+    if (userIdInput) {
+      userIdInput.value = user._id;
+    }
+
+    return user;
+  } catch (err) {
+    console.error("Failed to fetch user info", err);
+    return null;
+  }
+}
+
 async function checkAuthStatus() {
   try {
     const token = localStorage.getItem("token");
@@ -150,7 +180,7 @@ async function handleLogout() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const loginButton = document.getElementById("loginButton");
   const logoutButton = document.getElementById("logoutButton");
 
@@ -162,5 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutButton.addEventListener("click", handleLogout);
   }
 
-  checkAuthStatus();
+  await checkAuthStatus(); //still check status
+  await fetchUserInfo(); // fetch and set userId
+  updateAuthUI();
 });

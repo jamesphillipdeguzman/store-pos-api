@@ -113,6 +113,14 @@ window.addEventListener("DOMContentLoaded", () => {
         customerIdInput.value = savedCustomerId;
       }
 
+      // Grab the userId from local storage
+      const savedUserId = localStorage.getItem("userId");
+      const userIdInput = document.getElementById("userId");
+
+      if (userIdInput && savedUserId) {
+        userIdInput.value = savedUserId;
+      }
+
       // Select product in saleProduct dropdown
       const saleProductSelect = document.getElementById("saleProduct");
 
