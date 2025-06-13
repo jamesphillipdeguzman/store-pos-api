@@ -108,6 +108,15 @@ textarea:focus {
   background-color: #d32f2f;
 }
 
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  width: 90%;
+  max-width: 100vw; 
+  margin-top: 1rem;
+  justify-content: flex-start; 
+  flex-wrap: wrap; 
+}
 
 #paymentMethod {
   margin-bottom: auto;
