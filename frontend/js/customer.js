@@ -46,6 +46,9 @@ window.addEventListener("DOMContentLoaded", () => {
       customerSelect.appendChild(option);
       customerSelect.value = data._id; // pre-select it
 
+      // Set customerId in the input
+      document.getElementById("customerId").value = data._id;
+
       // Show product form
       document.getElementById("productForm").style.display = "flex";
 
