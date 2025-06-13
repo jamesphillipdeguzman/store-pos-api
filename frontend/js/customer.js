@@ -41,10 +41,10 @@ window.addEventListener("DOMContentLoaded", () => {
       // Prefill customerId in sale form
       const customerSelect = document.getElementById("saleCustomer");
       const option = document.createElement("option");
-      option.value = data._id;
-      option.textContent = data.name;
+      option.value = data._id; // from response
+      option.textContent = `${data.firstName} ${data.lastName}`;
       customerSelect.appendChild(option);
-      customerSelect.value = data._id;
+      customerSelect.value = data._id; // pre-select it
 
       // Show product form
       document.getElementById("productForm").style.display = "flex";
