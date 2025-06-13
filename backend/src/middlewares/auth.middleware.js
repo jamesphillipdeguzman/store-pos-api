@@ -22,12 +22,11 @@ export function verifyJWT(req, res, next) {
   // Use regex to extract token safely (for edge cases)
   const tokenMatch = authHeader.match(/^Bearer (.+)$/);
   const token = tokenMatch ? tokenMatch[1] : null;
-  // const token = authHeader.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'Missing token' });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // attach user info to request
+    req.user = decoded;
     next();
   } catch (err) {
     return res
@@ -44,10 +43,8 @@ export function hybridAuth(req, res, next) {
 
   const authHeader = req.headers.authorization;
   if (authHeader) {
-    // Use regex to extract token safely (for edge cases)
     const tokenMatch = authHeader.match(/^Bearer (.+)$/);
     const token = tokenMatch ? tokenMatch[1] : null;
-    // const token = authHeader.split(' ')[1];
 
     try {
       req.user = jwt.verify(token, process.env.JWT_SECRET);
@@ -57,7 +54,7 @@ export function hybridAuth(req, res, next) {
     }
   }
 
-  res
-    .status(401)
-    .json({ message: 'You are not authorized to view/use this resource' });
+  res.status(401).json({
+    message: 'You are not authorized to view/use this resource',
+  });
 }
