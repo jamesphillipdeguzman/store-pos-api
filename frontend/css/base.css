@@ -72,9 +72,42 @@ textarea:focus {
   display: none;
 }
 
-.submit {
+.submit,
+.clear {
   height: 40px;
 }
+
+.submit {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.submit:hover {
+  background-color: #45a049;
+}
+
+.clear {
+  background-color: #f44336; /* Red */
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.clear:hover {
+  background-color: #d32f2f;
+}
+
 
 #paymentMethod {
   margin-bottom: auto;
