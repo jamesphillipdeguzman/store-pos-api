@@ -104,6 +104,22 @@ window.addEventListener("DOMContentLoaded", () => {
         productData._id || productData.id;
       document.getElementById("priceAtSale").value =
         productData.price.toFixed(2);
+
+      // Select product in saleProduct dropdown
+      const saleProductSelect = document.getElementById("saleProduct");
+
+      let exists = [...saleProductSelect.options].some(
+        (opt) => opt.value === productData._id
+      );
+      if (!exists) {
+        const option = document.createElement("option");
+        option.value = productData._id;
+        option.textContent = productData.name;
+        saleProductSelect.appendChild(option);
+      }
+
+      // Select the new product
+      saleProductSelect.value = productData._id;
     } catch (error) {
       console.error("Error submitting product", error);
       alert("Error creating product. Please try again.");
