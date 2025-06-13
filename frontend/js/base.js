@@ -1,4 +1,4 @@
-import { BACKEND_ORIGIN } from "./auth.js";
+import { BACKEND_ORIGIN, updateAuthUI } from "./auth.js";
 window.addEventListener("DOMContentLoaded", () => {
   let productForm;
   let saleForm;

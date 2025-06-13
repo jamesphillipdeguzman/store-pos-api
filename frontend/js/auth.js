@@ -119,7 +119,7 @@ async function checkAuthStatus() {
   }
 }
 
-function updateAuthUI() {
+export function updateAuthUI() {
   const loginButton = document.getElementById("loginButton");
   const userInfo = document.getElementById("userInfo");
   const logoutButton = document.getElementById("logoutButton");
