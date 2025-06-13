@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     const customer = {
-      firstName: document.getElementById("customerFirstName").value,
+      firstName: document.getElementById("customerFirstName").value, // separating the firstName and lastName fixed my issues with my frontend html only accepting Full Name.
       lastName: document.getElementById("customerLastName").value,
       email: document.getElementById("customerEmail").value,
       phone: document.getElementById("customerPhone").value,
@@ -50,7 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("productForm").style.display = "flex";
 
       // Optionally reset customer form
-      customerForm.reset();
+      // customerForm.reset();
     } catch (err) {
       console.error("Error submitting customer:", err);
       alert("Error creating customer.");
