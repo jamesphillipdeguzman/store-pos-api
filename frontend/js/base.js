@@ -105,6 +105,14 @@ window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("priceAtSale").value =
         productData.price.toFixed(2);
 
+      // Grab the customerId from local storage
+      const savedCustomerId = localStorage.getItem("customerId");
+      const customerIdInput = document.getElementById("customerId");
+
+      if (customerIdInput && savedCustomerId) {
+        customerIdInput.value = savedCustomerId;
+      }
+
       // Select product in saleProduct dropdown
       const saleProductSelect = document.getElementById("saleProduct");
 

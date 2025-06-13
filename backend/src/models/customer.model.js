@@ -16,6 +16,7 @@ const customerSchema = new mongoose.Schema({
     required: true,
     match: /.+@.+\..+/, // Basic email pattern
     trim: true,
+    unique: true, // prevent duplicates on DB layer
   },
   phone: {
     type: String,

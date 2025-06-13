@@ -49,6 +49,9 @@ window.addEventListener("DOMContentLoaded", () => {
       // Set customerId in the input
       document.getElementById("customerId").value = data._id;
 
+      // Store customerId in local storage to pre-fill sales form later
+      localStorage.setItem("customerId", data._id);
+
       // Show product form
       document.getElementById("productForm").style.display = "flex";
 
