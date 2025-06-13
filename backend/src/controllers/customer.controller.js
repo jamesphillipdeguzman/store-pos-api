@@ -58,6 +58,13 @@ export const getCustomerById = async (req, res) => {
  */
 
 export const postCustomer = async (req, res) => {
+  const name = req.body.name?.trim();
+  if (name) {
+    const [firstName, ...lastNameParts] = name.split(' ');
+    req.body.firstName = firstName;
+    req.body.lastName = lastNameParts.join(' ') || '';
+  }
+
   const customerData = req.body;
   try {
     const newCustomer = await createCustomerService(customerData);

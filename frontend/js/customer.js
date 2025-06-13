@@ -7,7 +7,8 @@ window.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     const customer = {
-      name: document.getElementById("customerName").value,
+      firstName: document.getElementById("customerFirstName").value,
+      lastName: document.getElementById("customerLastName").value,
       email: document.getElementById("customerEmail").value,
       phone: document.getElementById("customerPhone").value,
       address: document.getElementById("customerAddress").value,
