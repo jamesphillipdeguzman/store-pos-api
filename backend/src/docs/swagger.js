@@ -33,6 +33,14 @@ const options = {
         name: 'Sales',
         description: 'Sale management routes for testing',
       },
+      {
+        name: 'Users',
+        description: 'User management routes for testing',
+      },
+      {
+        name: 'Customers',
+        description: 'Customer management routes for testing',
+      },
     ],
     components: components,
   },

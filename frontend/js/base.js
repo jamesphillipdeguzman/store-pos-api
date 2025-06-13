@@ -10,6 +10,28 @@ window.addEventListener("DOMContentLoaded", () => {
     userName: null,
   };
 
+  function generateSKU(category) {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const randomPart = Math.random().toString(36).substring(2, 5).toUpperCase();
+    const catCode = category.slice(0, 3).toUpperCase();
+    return `${catCode}-${year}${month}-${randomPart}`;
+  }
+
+  const categoryInput = document.getElementById("category");
+  const skuInput = document.getElementById("sku");
+
+  categoryInput.addEventListener("change", () => {
+    const selectedCategory = categoryInput.value;
+    if (selectedCategory) {
+      const generatedSKU = generateSKU(selectedCategory);
+      skuInput.value = generatedSKU;
+    } else {
+      skuInput.value = "";
+    }
+  });
+
   productForm = document.getElementById("productForm");
   saleForm = document.getElementById("saleForm");
 
@@ -37,7 +59,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // First, create a product
     const product = {
       name: document.getElementById("name").value,
-      sku: parseInt(document.getElementById("sku").value),
+      sku: document.getElementById("sku").value,
       stock: parseInt(document.getElementById("stock").value),
       description: document.getElementById("description").value,
       price: parseFloat(document.getElementById("price").value),
@@ -82,6 +104,38 @@ window.addEventListener("DOMContentLoaded", () => {
         productData._id || productData.id;
       document.getElementById("priceAtSale").value =
         productData.price.toFixed(2);
+
+      // Grab the customerId from local storage
+      const savedCustomerId = localStorage.getItem("customerId");
+      const customerIdInput = document.getElementById("customerId");
+
+      if (customerIdInput && savedCustomerId) {
+        customerIdInput.value = savedCustomerId;
+      }
+
+      // Grab the userId from local storage
+      const savedUserId = localStorage.getItem("userId");
+      const userIdInput = document.getElementById("userId");
+
+      if (userIdInput && savedUserId) {
+        userIdInput.value = savedUserId;
+      }
+
+      // Select product in saleProduct dropdown
+      const saleProductSelect = document.getElementById("saleProduct");
+
+      let exists = [...saleProductSelect.options].some(
+        (opt) => opt.value === productData._id
+      );
+      if (!exists) {
+        const option = document.createElement("option");
+        option.value = productData._id;
+        option.textContent = productData.name;
+        saleProductSelect.appendChild(option);
+      }
+
+      // Select the new product
+      saleProductSelect.value = productData._id;
     } catch (error) {
       console.error("Error submitting product", error);
       alert("Error creating product. Please try again.");
@@ -94,8 +148,8 @@ window.addEventListener("DOMContentLoaded", () => {
     // Second, create the sale
     const sale = {
       productId: document.getElementById("productId").value,
-      //   customerId: document.getElementById("customerId").value, TODO: Uncomment when Customer is ready
-      //   userId: document.getElementById("userId").value, TODO: Uncomment when User is ready
+      customerId: document.getElementById("customerId").value,
+      userId: document.getElementById("userId").value,
       priceAtSale: parseFloat(document.getElementById("priceAtSale").value),
       quantity: parseInt(document.getElementById("quantity").value),
       totalAmount: parseFloat(document.getElementById("totalAmount").value),

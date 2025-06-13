@@ -7,9 +7,10 @@ import User from '../models/user.model.js';
 dotenv.config();
 
 // Add admin here using their emails
-const adminEmails = ['jamesphillipdeguzman@gmail.com'].map((e) =>
-  e.toLowerCase(),
-);
+const adminEmails = [
+  'jamesphillipdeguzman@gmail.com',
+  'samuel.riverosb@gmail.com',
+].map((e) => e.toLowerCase());
 
 // Configure GoogleStrategy to use pre-loaded env variables
 passport.use(
@@ -46,6 +47,7 @@ passport.use(
           const newUser = await User.create({
             googleId: profile.id,
             name: profile.displayName,
+            picture: profile.photos?.[0]?.value,
             email,
             role, // assigned based on email
             lastLogin: new Date(),

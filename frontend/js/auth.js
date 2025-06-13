@@ -64,6 +64,36 @@ function openGoogleAuthPopup() {
   });
 }
 
+export async function fetchUserInfo() {
+  try {
+    const res = await fetch(`${BACKEND_ORIGIN}/api/users/profile`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // or cookie if you're using sessions
+      },
+      credentials: "include", // if using session-based auth
+    });
+
+    if (!res.ok) throw new Error("Not authenticated");
+
+    const user = await res.json();
+
+    // Save _id as userId in localStorage or directly to the form
+    localStorage.setItem("userId", user._id);
+
+    // Optional: populate hidden field in sale form
+    const userIdInput = document.getElementById("userId");
+    if (userIdInput) {
+      userIdInput.value = user._id;
+    }
+
+    return user;
+  } catch (err) {
+    console.error("Failed to fetch user info", err);
+    return null;
+  }
+}
+
 async function checkAuthStatus() {
   try {
     const token = localStorage.getItem("token");
@@ -95,8 +125,16 @@ function updateAuthUI() {
   const logoutButton = document.getElementById("logoutButton");
   const appMessage = document.getElementById("appMessage");
   const productForm = document.getElementById("productForm");
+  const customerForm = document.getElementById("customerForm");
+  const userIdField = document.getElementById("userId");
 
+  customerForm.style.display = "none";
   productForm.style.display = "none";
+
+  if (userIdField && authState.user?._id) {
+    userIdField.value = authState.user._id || authState.user.sub;
+    console.log("userId set to: ", userIdField.value);
+  }
 
   if (authState.isAuthenticated) {
     if (loginButton) loginButton.style.display = "none";
@@ -107,6 +145,7 @@ function updateAuthUI() {
     }
     if (logoutButton) logoutButton.style.display = "block";
     if (appMessage) appMessage.textContent = "Ready for testing";
+    customerForm.style.display = "flex";
     productForm.style.display = "flex";
   } else {
     if (loginButton) loginButton.style.display = "block";
@@ -115,6 +154,7 @@ function updateAuthUI() {
     if (appMessage)
       appMessage.textContent =
         "Please sign in with Google to access this feature.";
+    customerForm.style.display = "none";
     productForm.style.display = "none";
   }
 }
@@ -140,7 +180,7 @@ async function handleLogout() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const loginButton = document.getElementById("loginButton");
   const logoutButton = document.getElementById("logoutButton");
 
@@ -152,5 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutButton.addEventListener("click", handleLogout);
   }
 
-  checkAuthStatus();
+  await checkAuthStatus(); //still check status
+  await fetchUserInfo(); // fetch and set userId
+  updateAuthUI();
 });

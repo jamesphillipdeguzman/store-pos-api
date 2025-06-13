@@ -36,6 +36,9 @@ export function verifyJWT(req, res, next) {
 }
 
 export function hybridAuth(req, res, next) {
+  console.log('AUTH CHECK - Headers:', req.headers);
+  console.log('AUTH CHECK - Session:', req.session);
+  console.log('AUTH CHECK - req.user before check:', req.user);
   if (req.isAuthenticated()) return next();
 
   const authHeader = req.headers.authorization;

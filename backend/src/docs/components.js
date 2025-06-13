@@ -71,6 +71,69 @@ export const components = {
         },
       },
     },
+    User: {
+      type: 'object',
+      required: ['name', 'email', 'password'],
+      properties: {
+        name: { 
+          type: 'string',
+          description: 'Full name of the user'
+        },
+        email: { 
+          type: 'string',
+          format: 'email',
+          description: 'Email address of the user'
+        },
+        password: { 
+          type: 'string',
+          description: 'User password (hashed in storage)'
+        },
+        role: { 
+          type: 'string',
+          enum: ['admin', 'user'],
+          description: 'User role for access control'
+        },
+        createdAt: { 
+          type: 'string',
+          format: 'date-time'
+        },
+        updatedAt: { 
+          type: 'string',
+          format: 'date-time'
+        }
+      },
+    },
+    Customer: {
+      type: 'object',
+      required: ['name', 'email', 'phone'],
+      properties: {
+        name: { 
+          type: 'string',
+          description: 'Full name of the customer'
+        },
+        email: { 
+          type: 'string',
+          format: 'email',
+          description: 'Email address of the customer'
+        },
+        phone: { 
+          type: 'string',
+          description: 'Phone number of the customer'
+        },
+        address: { 
+          type: 'string',
+          description: 'Physical address of the customer'
+        },
+        createdAt: { 
+          type: 'string',
+          format: 'date-time'
+        },
+        updatedAt: { 
+          type: 'string',
+          format: 'date-time'
+        }
+      },
+    },
     // Otros esquemas pueden ser añadidos por otros miembros del equipo
   },
   responses: {
