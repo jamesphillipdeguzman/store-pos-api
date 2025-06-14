@@ -12,6 +12,7 @@ const adminEmails = [
   'samuel.riverosb@gmail.com',
   'gbebia2@gmail.com',
   'linaresjhefer@gmail.com',
+  'mawuliayikpa89@gmail.com',
 ].map((e) => e.toLowerCase());
 
 // Configure GoogleStrategy to use pre-loaded env variables
